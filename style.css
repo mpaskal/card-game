@@ -31,6 +31,7 @@ h1 {
 }
 
 .card {
+  cursor: pointer;
   display: inline-block;
   margin: 1.1rem 0 1.1rem 1.5rem;
   width: 125px;
@@ -70,9 +71,26 @@ h1 {
   transform: rotateY(180deg);
 }
 
-.score{
+.score {
   display: flex;
   justify-content: end;
+}
+
+.score.current {
+ margin-right:2rem;
+ font-weight: 700;
+}
+
+.fa-arrows-rotate {
+  color:rgb(18, 172, 18);
+  cursor: pointer;
+}
+
+.fa-arrows-rotate:hover {
+  color: rgb(4, 137, 4);
+  cursor: pointer;
+  box-shadow: 0 0.5px 0.5px 0.5px rgba(18,172,18);
+  font-size: 1.1rem;
 }
 
 /* Congrats box */

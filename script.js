@@ -115,6 +115,13 @@ function isGameOver() {
   }, 500);
 }
 
+function resetScores() {
+  localStorage.setItem("bestscore", 0);
+  document.querySelector("#score-best").textContent = `${localStorage.getItem(
+    "bestscore"
+  )}`;
+}
+
 // randomize an array
 function shuffle(array) {
   let currentIndex = array.length,

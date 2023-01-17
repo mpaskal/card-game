@@ -5,6 +5,11 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css"
+    />
+    <link rel="stylesheet" href="https://fontawesome.com/search?m=free" />
     <link rel="stylesheet" href="style.css" />
     <script src="script.js" defer></script>
   </head>
@@ -12,10 +17,17 @@
     <h1>Matching Game</h1>
     <div class="game">
       <div class="board">
-        <div class="score">Clicks:&nbsp<sping id="score-last"></sping></div>
-        <div class="score">
-          Best Score:&nbsp<sping id="score-best"> </sping>
+        <div class="score current">
+          Clicks:&nbsp<sping id="score-last"></sping>
         </div>
+        <div class="score">
+          Best Score:&nbsp<sping id="score-best"> </sping> &nbsp&nbsp<i
+            class="fa-solid fa-arrows-rotate"
+            onClick="resetScores()"
+            title="Reset best scores"
+          ></i>
+        </div>
+
         <div class="congrats-container" id="congrats-container">
           <div class="congrats-text">
             <span id="congrats">Congratulations! You win!</span>

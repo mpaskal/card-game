@@ -14,15 +14,21 @@
     <script src="script.js" defer></script>
   </head>
   <body>
-    <h1>Matching Game</h1>
+    <h1>
+      Matching Game &nbsp&nbsp<i
+        class="fa-solid fa-arrows-rotate big"
+        onClick="restart()"
+        title="Restart the game"
+      ></i>
+    </h1>
     <div class="game">
       <div class="board">
         <div class="score current">
           Clicks:&nbsp<sping id="score-last"></sping>
         </div>
         <div class="score">
-          Best Score:&nbsp<sping id="score-best"> </sping> &nbsp&nbsp<i
-            class="fa-solid fa-arrows-rotate"
+          Best Scores:&nbsp<sping id="score-best"> </sping> &nbsp&nbsp<i
+            class="fa-solid fa-arrows-rotate small"
             onClick="resetScores()"
             title="Reset best scores"
           ></i>

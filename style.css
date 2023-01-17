@@ -81,16 +81,27 @@ h1 {
  font-weight: 700;
 }
 
-.fa-arrows-rotate {
+.fa-arrows-rotate.small {
   color:rgb(18, 172, 18);
   cursor: pointer;
 }
 
-.fa-arrows-rotate:hover {
+.fa-arrows-rotate.small:hover {
   color: rgb(4, 137, 4);
-  cursor: pointer;
   box-shadow: 0 0.5px 0.5px 0.5px rgba(18,172,18);
   font-size: 1.1rem;
+}
+
+.fa-arrows-rotate.big {
+  color: rgb(18, 172, 18);
+  cursor: pointer;
+  font-size: 1.5rem;
+}
+
+.fa-arrows-rotate.big:hover {
+  color: rgb(4, 137, 4);
+  box-shadow: 0 0.5px 0.5px 0.5px rgba(18, 172, 18);
+  font-size: 1.6rem;
 }
 
 /* Congrats box */

@@ -101,7 +101,10 @@ function isMatchingPair(card, el) {
 }
 
 function isGameOver() {
-  if (+localStorage.getItem("bestscore") > +localStorage.getItem("lastscore")) {
+  if (
+    +localStorage.getItem("bestscore") > +localStorage.getItem("lastscore") ||
+    +localStorage.getItem("bestscore") == 0
+  ) {
     localStorage.setItem("bestscore", +localStorage.getItem("lastscore"));
   }
   document.querySelector("#score-best").textContent = `${localStorage.getItem(

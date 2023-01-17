@@ -18,6 +18,20 @@ function renderBoard() {
 
   const cardsRandom = shuffle(cardsOrd);
 
+  if (localStorage.getItem("bestscore") !== null) {
+    localStorage.setItem("bestscore", +localStorage.getItem("bestscore"));
+  } else {
+    localStorage.setItem("bestscore", 0);
+  }
+  localStorage.setItem("lastscore", 0);
+
+  document.querySelector("#score-best").textContent = ` ${localStorage.getItem(
+    "bestscore"
+  )} `;
+  document.querySelector("#score-last").textContent = ` ${localStorage.getItem(
+    "lastscore"
+  )} `;
+
   document.querySelector(".congrats-container").style.display = "none";
 
   // get list of cards;
@@ -34,8 +48,12 @@ function onCardClick(e) {
   let maxOpenCards =
     document.querySelectorAll(".flipped-up").length -
     document.querySelectorAll(".done").length;
+  localStorage.setItem("lastscore", +localStorage.getItem("lastscore") + 1);
   if (maxOpenCards < 2) {
     flipCard(el);
+    document.querySelector(
+      "#score-last"
+    ).textContent = ` ${localStorage.getItem("lastscore")} `;
   }
 }
 
@@ -83,6 +101,12 @@ function isMatchingPair(card, el) {
 }
 
 function isGameOver() {
+  if (+localStorage.getItem("bestscore") > +localStorage.getItem("lastscore")) {
+    localStorage.setItem("bestscore", +localStorage.getItem("lastscore"));
+  }
+  document.querySelector("#score-best").textContent = `${localStorage.getItem(
+    "bestscore"
+  )}`;
   setTimeout(() => {
     document.querySelector(".congrats-container").style.display = "block";
   }, 500);

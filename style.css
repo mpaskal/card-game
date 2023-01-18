@@ -159,10 +159,32 @@ button:active {
 
 @media screen and (max-width: 1000px) {
   .congrats-container {
-    margin: auto 20%;
+    margin: 5% 10% 5% auto; 
+    width: 70%;
   }
-
   .congrats-text {
     font-size: 2rem;
+  }
+  .score {
+    margin: 1% auto;
+  }
+  .cards-set {
+    margin: 3% auto;
+  }
+}
+
+@media only screen and (max-width: 600px) {
+  .congrats-container {
+    margin: 5% 10% 5% auto;
+    width: 80%;
+  }    
+  .congrats-text {
+    font-size: 1.5rem;
+  }
+  .score {
+    margin: 1% auto;
+  }
+  .cards-set {
+    margin: 3% auto;
   }
 }

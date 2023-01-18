@@ -74,6 +74,7 @@ h1 {
 .cards-set {
   display: flex;
   justify-content: start;
+  margin: 0.5% auto;
 }
 
 #number-cards {
@@ -83,6 +84,7 @@ h1 {
 .score {
   display: flex;
   justify-content: end;
+  margin: 0.5% auto;
 }
 
 .score.current {

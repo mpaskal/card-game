@@ -137,19 +137,19 @@ function isMatchingPair(card, el) {
 }
 
 function isGameOver() {
-  let currentNum = document.querySelector("#cards-number").textContent;
+  let currentNum = document.querySelector("#cards-number").textContent.trim();
   if (
     +localStorage.getItem(`bestscore${currentNum}`) >
       +localStorage.getItem("lastscore") ||
     +localStorage.getItem(`bestscore${currentNum}`) == 0
   ) {
     localStorage.setItem(
-      `bestscore${currentNum}`.replace(/ /g, ""),
+      `bestscore${currentNum}`,
       localStorage.getItem("lastscore")
     );
   }
   document.querySelector("#score-best").textContent = localStorage.getItem(
-    `bestscore${currentNum}`.replace(/ /g, "")
+    `bestscore${currentNum}`
   );
   setTimeout(() => {
     document.querySelector(".congrats-container").style.display = "block";
@@ -165,7 +165,7 @@ function setNumberOfCards() {
 }
 
 function resetScores() {
-  let currentNum = document.querySelector("#cards-number").textContent;
+  let currentNum = document.querySelector("#cards-number").textContent.trim();
   localStorage.setItem(`bestscore${currentNum}`, 0);
   document.querySelector("#score-best").textContent = `${localStorage.getItem(
     `bestscore${currentNum}`

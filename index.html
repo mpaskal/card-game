@@ -26,8 +26,16 @@
         <div class="score current">
           Clicks:&nbsp<sping id="score-last"></sping>
         </div>
+        <div class="score">
+          Best Scores for &nbsp<sping id="cards-number"> </sping>
+          &nbspcards:&nbsp<sping id="score-best"> </sping> &nbsp&nbsp<i
+            class="fa-solid fa-arrows-rotate small"
+            onClick="resetScores()"
+            title="Reset best scores"
+          ></i>
+        </div>
         <div class="cards-set">
-          <label for="number-cards">Number of Cards:</label>
+          <label for="number-cards">Number of Cards:&nbsp</label>
           <select
             id="number-cards"
             name="number-cards"
@@ -44,14 +52,6 @@
             <option value="22">22</option>
             <option value="24">24</option>
           </select>
-        </div>
-        <div class="score">
-          Best Scores for &nbsp<sping id="cards-number"> </sping>
-          &nbspcards:&nbsp<sping id="score-best"> </sping> &nbsp&nbsp<i
-            class="fa-solid fa-arrows-rotate small"
-            onClick="resetScores()"
-            title="Reset best scores"
-          ></i>
         </div>
 
         <div class="congrats-container" id="congrats-container">

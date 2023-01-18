@@ -71,6 +71,15 @@ h1 {
   transform: rotateY(180deg);
 }
 
+.cards-set {
+  display: flex;
+  justify-content: start;
+}
+
+#number-cards {
+  width: 45px;
+}
+
 .score {
   display: flex;
   justify-content: end;

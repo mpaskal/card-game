@@ -14,25 +14,56 @@ function renderBoard() {
     "image-5",
     "image-6",
     "image-6",
+    "image-1",
+    "image-1",
+    "image-2",
+    "image-2",
+    "image-3",
+    "image-3",
+    "image-4",
+    "image-4",
+    "image-5",
+    "image-5",
+    "image-6",
+    "image-6",
   ];
 
-  const cardsRandom = shuffle(cardsOrd);
-
-  if (localStorage.getItem("bestscore") !== null) {
-    localStorage.setItem("bestscore", +localStorage.getItem("bestscore"));
+  const defaultNumberOfCards = 12;
+  let numberOfCards = localStorage.getItem("cardsnumber");
+  if (numberOfCards == null) {
+    numberOfCards = defaultNumberOfCards;
+    localStorage.setItem("cardsnumber", 0);
   } else {
-    localStorage.setItem("bestscore", 0);
+    document.querySelector("#number-cards").value =
+      localStorage.getItem("cardsnumber");
+  }
+  let cardsRandom = shuffle(cardsOrd, numberOfCards);
+
+  localStorage.setItem("cardsnumber", numberOfCards);
+
+  let numBestResult = localStorage.getItem(`bestscore${numberOfCards}`);
+  if (numBestResult == null) {
+    localStorage.setItem(`bestscore${numberOfCards}`, 0);
   }
   localStorage.setItem("lastscore", 0);
 
-  document.querySelector("#score-best").textContent = ` ${localStorage.getItem(
-    "bestscore"
-  )} `;
-  document.querySelector("#score-last").textContent = ` ${localStorage.getItem(
+  document.querySelector("#score-best").textContent = `${localStorage.getItem(
+    `bestscore${numberOfCards}`
+  )}`;
+  document.querySelector("#score-last").textContent = `${localStorage.getItem(
     "lastscore"
   )} `;
+  document.querySelector(
+    "#cards-number"
+  ).textContent = ` ${localStorage.getItem("cardsnumber")} `;
 
   document.querySelector(".congrats-container").style.display = "none";
+
+  for (let i = 0; i < cardsRandom.length; i++) {
+    let div = document.createElement("div");
+    div.className = "card";
+    document.querySelector(".board").appendChild(div);
+  }
 
   // get list of cards;
   const cards = document.querySelectorAll(".card");
@@ -80,7 +111,10 @@ function isMatchingPair(card, el) {
     .split(" ")
     .filter((n) => n);
   document.querySelectorAll(".flipped-up").forEach(function (elFlipped) {
-    if (elFlipped.classList.value.split(" ").includes(cardImg[0])) {
+    if (
+      elFlipped.classList.value.split(" ").includes(cardImg[0]) &&
+      !elFlipped.classList.value.split(" ").includes("done")
+    ) {
       el.classList.add("flipped-up");
       elFlipped.classList.add("done");
       el.classList.add("done");
@@ -93,38 +127,54 @@ function isMatchingPair(card, el) {
     }
   });
   if (
-    document.querySelectorAll(".done").length > 11 &&
-    document.querySelectorAll(".flipped-up").length > 11
+    document.querySelectorAll(".done").length >
+      localStorage.getItem("cardsnumber") - 1 &&
+    document.querySelectorAll(".flipped-up").length >
+      localStorage.getItem("cardsnumber") - 1
   ) {
     isGameOver();
   }
 }
 
 function isGameOver() {
+  let currentNum = document.querySelector("#cards-number").textContent;
   if (
-    +localStorage.getItem("bestscore") > +localStorage.getItem("lastscore") ||
-    +localStorage.getItem("bestscore") == 0
+    +localStorage.getItem(`bestscore${currentNum}`) >
+      +localStorage.getItem("lastscore") ||
+    +localStorage.getItem(`bestscore${currentNum}`) == 0
   ) {
-    localStorage.setItem("bestscore", +localStorage.getItem("lastscore"));
+    localStorage.setItem(
+      `bestscore${currentNum}`.replace(/ /g, ""),
+      localStorage.getItem("lastscore")
+    );
   }
-  document.querySelector("#score-best").textContent = `${localStorage.getItem(
-    "bestscore"
-  )}`;
+  document.querySelector("#score-best").textContent = localStorage.getItem(
+    `bestscore${currentNum}`.replace(/ /g, "")
+  );
   setTimeout(() => {
     document.querySelector(".congrats-container").style.display = "block";
   }, 500);
 }
 
+function setNumberOfCards() {
+  localStorage.setItem(
+    "cardsnumber",
+    document.querySelector("#number-cards").value
+  );
+  restart();
+}
+
 function resetScores() {
-  localStorage.setItem("bestscore", 0);
+  let currentNum = document.querySelector("#cards-number").textContent;
+  localStorage.setItem(`bestscore${currentNum}`, 0);
   document.querySelector("#score-best").textContent = `${localStorage.getItem(
-    "bestscore"
+    `bestscore${currentNum}`
   )}`;
 }
 
 // randomize an array
-function shuffle(array) {
-  let currentIndex = array.length,
+function shuffle(array, length) {
+  let currentIndex = length,
     randomIndex;
 
   while (currentIndex != 0) {
@@ -135,6 +185,15 @@ function shuffle(array) {
       array[randomIndex],
       array[currentIndex],
     ];
+    randomIndex = Math.floor(Math.random() * currentIndex);
+    currentIndex--;
+    [array[currentIndex], array[randomIndex]] = [
+      array[randomIndex],
+      array[currentIndex],
+    ];
+  }
+  while (array.length > length) {
+    array.pop();
   }
   return array;
 }

@@ -26,8 +26,28 @@
         <div class="score current">
           Clicks:&nbsp<sping id="score-last"></sping>
         </div>
+        <div class="cards-set">
+          <label for="number-cards">Number of Cards:</label>
+          <select
+            id="number-cards"
+            name="number-cards"
+            onchange="setNumberOfCards()"
+          >
+            <option value="6">6</option>
+            <option value="8">8</option>
+            <option value="10">10</option>
+            <option value="12" selected>12</option>
+            <option value="14">14</option>
+            <option value="16">16</option>
+            <option value="18">18</option>
+            <option value="20">20</option>
+            <option value="22">22</option>
+            <option value="24">24</option>
+          </select>
+        </div>
         <div class="score">
-          Best Scores:&nbsp<sping id="score-best"> </sping> &nbsp&nbsp<i
+          Best Scores for &nbsp<sping id="cards-number"> </sping>
+          &nbspcards:&nbsp<sping id="score-best"> </sping> &nbsp&nbsp<i
             class="fa-solid fa-arrows-rotate small"
             onClick="resetScores()"
             title="Reset best scores"
@@ -42,18 +62,6 @@
             <button class="restart" onClick="restart()">Play again</button>
           </div>
         </div>
-        <div class="card"></div>
-        <div class="card"></div>
-        <div class="card"></div>
-        <div class="card"></div>
-        <div class="card"></div>
-        <div class="card"></div>
-        <div class="card"></div>
-        <div class="card"></div>
-        <div class="card"></div>
-        <div class="card"></div>
-        <div class="card"></div>
-        <div class="card"></div>
       </div>
     </div>
   </body>

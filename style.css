@@ -36,7 +36,7 @@ h1 {
   margin: 1.1rem 0 1.1rem 1.5rem;
   width: 125px;
   height: 172px;
-  background-image: url('https://i.imgur.com/r9CqaTr.jpg');
+  background-image: url('./assets/images/pokemonCards.jpg');
   background-repeat: no-repeat;
   background-position: -375px -172px;
   transition: transform 1s;

@@ -1,5 +1,4 @@
-// Matching game
-// Render the board randomly for a new game:
+// set cards
 function renderBoard() {
   const cardsOrd = [
     "image-1",
@@ -29,17 +28,16 @@ function renderBoard() {
   ];
 
   const defaultNumberOfCards = 12;
-  let numberOfCards = localStorage.getItem("cardsnumber");
-  if (numberOfCards == null) {
-    numberOfCards = defaultNumberOfCards;
-    localStorage.setItem("cardsnumber", 0);
+  if (localStorage.getItem("cardsnumber") == null) {
+    localStorage.setItem("cardsnumber", defaultNumberOfCards);
   } else {
     document.querySelector("#number-cards").value =
       localStorage.getItem("cardsnumber");
   }
+  let numberOfCards = localStorage.getItem("cardsnumber");
+  console.log("number of cards", numberOfCards);
   let cardsRandom = shuffle(cardsOrd, numberOfCards);
-
-  localStorage.setItem("cardsnumber", numberOfCards);
+  console.log("cardsRandom ", cardsRandom);
 
   let numBestResult = localStorage.getItem(`bestscore${numberOfCards}`);
   if (numBestResult == null) {
@@ -67,11 +65,42 @@ function renderBoard() {
 
   // get list of cards;
   const cards = document.querySelectorAll(".card");
+
   // game setup
   cards.forEach((elem) => {
     elem.classList.add(cardsRandom.pop());
     elem.addEventListener("click", onCardClick);
   });
+}
+
+// generate a random number
+function calcRandomNumber(newLength) {
+  return Math.floor(Math.random() * newLength);
+}
+
+// adjust array size
+function arraySize(array, newLength) {
+  let originalArrayLength = array.length;
+  while (originalArrayLength > newLength) {
+    array.pop();
+    originalArrayLength--;
+  }
+  return array;
+}
+
+// randomize an array
+function shuffle(array, newLength) {
+  let currentIndex = newLength - 1;
+  let adjustedArray = arraySize(array, newLength);
+  while (currentIndex != 0) {
+    let randomIndex = calcRandomNumber(newLength);
+    [adjustedArray[currentIndex], adjustedArray[randomIndex]] = [
+      adjustedArray[randomIndex],
+      adjustedArray[currentIndex],
+    ];
+    currentIndex--;
+  }
+  return adjustedArray;
 }
 
 function onCardClick(e) {
@@ -103,7 +132,7 @@ function flipCard(el) {
   }
 }
 
-// Check if the pair of cards are a match:
+// check if the pair of cards are match:
 function isMatchingPair(card, el) {
   const waitingTime = 1000;
   let cardImg = card
@@ -172,37 +201,11 @@ function resetScores() {
   )}`;
 }
 
-// randomize an array
-function shuffle(array, length) {
-  let currentIndex = length,
-    randomIndex;
-
-  while (currentIndex != 0) {
-    randomIndex = Math.floor(Math.random() * currentIndex);
-    currentIndex--;
-
-    [array[currentIndex], array[randomIndex]] = [
-      array[randomIndex],
-      array[currentIndex],
-    ];
-    randomIndex = Math.floor(Math.random() * currentIndex);
-    currentIndex--;
-    [array[currentIndex], array[randomIndex]] = [
-      array[randomIndex],
-      array[currentIndex],
-    ];
-  }
-  while (array.length > length) {
-    array.pop();
-  }
-  return array;
-}
-
 function restart() {
   window.location.reload();
 }
 
-// Start the game on page load
+// start the game on page load
 (function () {
   console.clear();
   renderBoard();

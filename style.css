@@ -34,11 +34,11 @@ h1 {
   cursor: pointer;
   display: inline-block;
   margin: 1.1rem 0 1.1rem 1.5rem;
-  width: 125px;
-  height: 172px;
-  background-image: url('./assets/images/pokemonCards.jpg');
+  width: 306px;
+  height: 166px;
+  background-image: url('./assets/images/collectionGibli16.jpg');
   background-repeat: no-repeat;
-  background-position: -375px -172px;
+  background-position: -305px -498px;
   transition: transform 1s;
   transform-style: preserve-3d;
 }
@@ -48,23 +48,47 @@ h1 {
 }
 
 .flipped-up.image-2 {
-  background-position: -125px 0;
+  background-position: -305px 0;
 }
 
 .flipped-up.image-3 {
-  background-position: -250px 0;
+  background-position: -610px 0;
 }
 
 .flipped-up.image-4 {
-  background-position: 0 -172px;
+  background-position: -915px 0;
 }
 
 .flipped-up.image-5 {
-  background-position: -125px -172px;
+  background-position: 0 -165px;
 }
 
 .flipped-up.image-6 {
-  background-position: -250px -172px;
+  background-position: -304px -164px;
+}
+
+.flipped-up.image-7 {
+  background-position: -610px -165px;
+}
+
+.flipped-up.image-8 {
+  background-position: -915px -165px;
+}
+
+.flipped-up.image-9 {
+  background-position: 0 -163px;
+}
+
+.flipped-up.image-10 {
+  background-position: -304px -331px;
+}
+
+.flipped-up.image-11 {
+  background-position: -611px -330px;
+}
+
+.flipped-up.image-12 {
+  background-position: -916px -329px;
 }
 
 .card.flipped-up {

@@ -190,6 +190,7 @@ function setNumberOfCards() {
     "cardsnumber",
     document.querySelector("#number-cards").value
   );
+  localStorage.getItem("cardsnumber");
   restart();
 }
 

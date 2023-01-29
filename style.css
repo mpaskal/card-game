@@ -34,61 +34,61 @@ h1 {
   cursor: pointer;
   display: inline-block;
   margin: 1.1rem 0 1.1rem 1.5rem;
-  width: 265px;
-  height: 265px;
-  background-image: url('./assets/images/collection18.jpg');
+  width: 208px;
+  height: 208px;
+  background-image: url('./assets/images/collection18small.jpg');
   background-repeat: no-repeat;
-  background-position: -851px -570px;
+  background-position: -666px -445px;
   transition: transform 1s;
   transform-style: preserve-3d;
 }
 
 .flipped-up.image-1 {
-  background-position: -12px -12px;
+  background-position: -10px -10px;
 }
 
 .flipped-up.image-2 {
-  background-position: -287px -12px;
+  background-position: -222px -10px;
 }
 
 .flipped-up.image-3 {
-  background-position: -565px -12px;
+  background-position: -442px -10px;
 }
 
 .flipped-up.image-4 {
-  background-position: -851px -12px;
+  background-position: -666px -10px;
 }
 
 .flipped-up.image-5 {
-  background-position: -287px -287px;
+  background-position: -224px -225px;
 }
 
 .flipped-up.image-6 {
-  background-position: -12px -287px;
+  background-position: -10px -224px;
 }
 
 .flipped-up.image-7 {
-  background-position: -568px -287px;
+  background-position: -446px -226px;
 }
 
 .flipped-up.image-8 {
-  background-position: -568px -567px;
+  background-position: -444px -444px;
 }
 
 .flipped-up.image-9 {
-  background-position: -1128px -570px;
+  background-position: -1102px -445px;
 }
 
 .flipped-up.image-10 {
-  background-position: -12px -570px;
+  background-position: -10px -442px;
 }
 
 .flipped-up.image-11 {
-  background-position: -851px -290px;
+  background-position: -667px -225px;
 }
 
 .flipped-up.image-12 {
-  background-position: -1408px -570px;
+  background-position: -884px -446px;
 }
 
 .card.flipped-up {

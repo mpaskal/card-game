@@ -38,7 +38,7 @@ h1 {
 .card {
   cursor: pointer;
   display: inline-block;
-  margin: 1.1rem 0 1.1rem 1.5rem;
+  margin: 1rem 0 0 1.2rem;
   width: 208px;
   height: 208px;
   background-image: url('./assets/images/collection18small.jpg');

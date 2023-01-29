@@ -1,3 +1,8 @@
+* {
+   margin: 0;
+   padding: 0;
+}
+
 body {
   margin: auto ;
   min-height: 100vh;
@@ -98,7 +103,7 @@ h1 {
 .cards-set {
   display: flex;
   justify-content: start;
-  margin: 0.5% auto;
+  margin: 1% auto;
 }
 
 #number-cards {
@@ -141,17 +146,17 @@ h1 {
 
 /* Congrats box */
 .congrats-container {
-  width: 50%;
-  margin: auto 20% 3% 20%;
-  padding: 20px 30px;
+  width: 60%;
+  margin: auto 30% 3% 20%;
+  padding: 10px 20px;
   border-radius: 10px;
-  background:url("./assets/images/congrats.jpg");
+  background:url("./assets/images/congratulations-gif.gif");
   background-size: auto;
-  box-shadow: 0 10px 10px 10px rgba(17, 2, 72, 0.2);
+  box-shadow: 0 5px 5px 5px rgba(223, 189, 105, 0.934);
 }
 
 .congrats-text {
-  color: goldenrod;
+  color:  rgb(247, 174, 15);
   font-size: 2.75rem;
 }
 
@@ -168,7 +173,7 @@ button {
   border: none;
   border-radius: 10px;
   color: #fff;
-  background: rgb(18, 172, 18);
+  background: rgb(53, 206, 53);
   outline: none;
   padding: 0.5rem 1.8rem;
   box-shadow: 0 0.2rem rgba(78, 124, 84, 0.65);

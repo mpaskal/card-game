@@ -35,10 +35,7 @@ function renderBoard() {
       localStorage.getItem("cardsnumber");
   }
   let numberOfCards = localStorage.getItem("cardsnumber");
-  console.log("number of cards", numberOfCards);
   let cardsRandom = shuffle(cardsOrd, numberOfCards);
-  console.log("cardsRandom ", cardsRandom);
-
   let numBestResult = localStorage.getItem(`bestscore${numberOfCards}`);
   if (numBestResult == null) {
     localStorage.setItem(`bestscore${numberOfCards}`, 0);
@@ -62,6 +59,17 @@ function renderBoard() {
     div.className = "card";
     document.querySelector(".board").appendChild(div);
   }
+
+  // set music
+  let musicLocal = localStorage.getItem("music");
+  if (musicLocal != undefined) {
+    document.querySelector("#music").textContent = `${musicLocal}`;
+  } else {
+    localStorage.setItem("music", document.querySelector("#music").value);
+    document.querySelector("#music").textContent = ` $musiclocal} `;
+  }
+
+  console.log(document.querySelector("#music").textContent);
 
   // get list of cards;
   const cards = document.querySelectorAll(".card");
@@ -192,6 +200,21 @@ function setNumberOfCards() {
   );
   localStorage.getItem("cardsnumber");
   restart();
+}
+
+function setMusic() {
+  let musicControl = document.querySelector("#music-control");
+  console.log("musicControl", musicControl);
+  localStorage.setItem("music", document.querySelector("#music").value);
+  console.log(document.querySelector("#music").value);
+  let music = localStorage.getItem("music");
+  if (music != "none") {
+    musicControl.removeAttribute("hidden");
+    musicControl.setAttribute(
+      "src",
+      `./assets/music/${localStorage.getItem("music")}`
+    );
+  }
 }
 
 function resetScores() {

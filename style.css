@@ -43,7 +43,7 @@ h1 {
   height: 208px;
   background-image: url('./assets/images/collection18small.jpg');
   background-repeat: no-repeat;
-  background-position: -666px -445px;
+  background-position: -881px -10px;
   transition: transform 1s;
   transform-style: preserve-3d;
 }
@@ -89,7 +89,7 @@ h1 {
 }
 
 .flipped-up.image-11 {
-  background-position: -667px -225px;
+  background-position: -225px -445px;
 }
 
 .flipped-up.image-12 {

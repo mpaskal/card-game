@@ -61,16 +61,22 @@ function renderBoard() {
   }
 
   // set music
-  let musicLocal = localStorage.getItem("music");
-  if (musicLocal != undefined) {
-    document.querySelector("#music").textContent = `${musicLocal}`;
+  if (
+    localStorage.getItem("music") != null ||
+    localStorage.getItem("music") != undefined
+  ) {
+    document.querySelector("#music").value = localStorage.getItem("music");
   } else {
     localStorage.setItem("music", document.querySelector("#music").value);
-    document.querySelector("#music").textContent = ` $musiclocal} `;
+    document.querySelector("#music").value = localStorage.getItem("music");
+  }
+  if (document.querySelector("#music").value.length < 5) {
+    document.querySelector("#music").style.width = "80px";
+  } else {
+    document.querySelector("#music").style.width = "200px";
   }
 
-  console.log(document.querySelector("#music").textContent);
-
+  setMusic();
   // get list of cards;
   const cards = document.querySelectorAll(".card");
 
@@ -204,16 +210,24 @@ function setNumberOfCards() {
 
 function setMusic() {
   let musicControl = document.querySelector("#music-control");
-  console.log("musicControl", musicControl);
   localStorage.setItem("music", document.querySelector("#music").value);
-  console.log(document.querySelector("#music").value);
-  let music = localStorage.getItem("music");
-  if (music != "none") {
+  if (localStorage.getItem("music") != "none") {
     musicControl.removeAttribute("hidden");
     musicControl.setAttribute(
       "src",
-      `./assets/music/${localStorage.getItem("music")}`
+      `./assets/music/${localStorage.getItem("music")}.mp3`
     );
+  } else if (
+    localStorage.getItem("music") == "none" &&
+    !musicControl.getAttribute("hidden")
+  ) {
+    musicControl.setAttribute("hidden", "hidden");
+    musicControl.setAttribute("src", "");
+  }
+  if (document.querySelector("#music").value.length < 5) {
+    document.querySelector("#music").style.width = "80px";
+  } else {
+    document.querySelector("#music").style.width = "200px";
   }
 }
 

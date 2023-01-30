@@ -188,6 +188,17 @@ button:active {
   box-shadow: 0 0.2rem rgba(78, 124, 84, 0.65);
 }
 
+/* audio */
+.audio {
+  display: flex;
+  align-items: flex-start;
+}
+
+#music {
+  color: rgb(2, 55, 2);
+  text-overflow: ellipsis;
+}
+
 @media screen and (max-width: 1000px) {
   .congrats-container {
     margin: 5% 10% 5% auto; 

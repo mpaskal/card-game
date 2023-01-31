@@ -21,6 +21,8 @@ h1 {
 
 .game {
   margin: auto;
+  width: 100%;
+  height: auto;
   color: rgb(19, 2, 84);
   font-weight: 700;
   text-align: center;
@@ -200,6 +202,16 @@ button:active {
   color: rgb(173, 113, 2);
   font-size: 1rem;
   text-overflow: ellipsis;
+}
+
+.footer {
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  margin: 0.5rem;
+  width: 100%;
+  color: rgb(13, 1, 61);
+  text-align: center;
 }
 
 @media screen and (max-width: 1000px) {

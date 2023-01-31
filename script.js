@@ -76,8 +76,14 @@ function renderBoard() {
     document.querySelector("#music").style.width = "200px";
   }
 
+  let dateCopyright = todayDate();
+  console.log(dateCopyright);
+  document.querySelector(
+    ".copyright"
+  ).innerHTML = `Copyright &copy; ${dateCopyright} LivenLab`;
+
   setMusic();
-  // get list of cards;
+  // get list of cards
   const cards = document.querySelectorAll(".card");
 
   // game setup
@@ -237,6 +243,12 @@ function resetScores() {
   document.querySelector("#score-best").textContent = `${localStorage.getItem(
     `bestscore${currentNum}`
   )}`;
+}
+
+// copyright
+function todayDate() {
+  let date = new Date().getFullYear();
+  return date;
 }
 
 function restart() {

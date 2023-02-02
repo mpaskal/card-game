@@ -189,8 +189,10 @@ function loopMusic() {
   console.log(document.querySelector("#music-control").getAttribute("loop"));
   if (document.querySelector("#music-control").getAttribute("loop") == null) {
     document.querySelector("#music-control").setAttribute("loop", "loop");
+    document.querySelector(".fa-rotate").setAttribute("title", "Loop On");
   } else {
     document.querySelector("#music-control").removeAttribute("loop");
+    document.querySelector(".fa-rotate").setAttribute("title", "Loop Off");
   }
 }
 

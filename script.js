@@ -185,6 +185,15 @@ function isMatchingPair(card, el) {
   }
 }
 
+function loopMusic() {
+  console.log(document.querySelector("#music-control").getAttribute("loop"));
+  if (document.querySelector("#music-control").getAttribute("loop") == null) {
+    document.querySelector("#music-control").setAttribute("loop", "loop");
+  } else {
+    document.querySelector("#music-control").removeAttribute("loop");
+  }
+}
+
 function isGameOver() {
   let currentNum = document.querySelector("#cards-number").textContent.trim();
   if (

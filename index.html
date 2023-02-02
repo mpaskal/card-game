@@ -16,7 +16,7 @@
   <body>
     <h1>
       Best Memory &nbsp&nbsp<i
-        class="fa-solid fa-arrows-rotate big"
+        class="fa-solid fa-rotate-left"
         onClick="restart()"
         title="Restart the game"
       ></i>
@@ -29,7 +29,7 @@
         <div class="score">
           Best Scores for &nbsp<sping id="cards-number"> </sping>
           &nbspcards:&nbsp<sping id="score-best"> </sping> &nbsp&nbsp<i
-            class="fa-solid fa-arrows-rotate small"
+            class="fa-solid fa-rotate-left small"
             onClick="resetScores()"
             title="Reset best scores"
           ></i>
@@ -105,6 +105,11 @@
               24 Reprise Spirited Away
             </option>
           </select>
+          <i
+            class="fa-solid fa-rotate small"
+            onClick="loopMusic()"
+            title="Loop Player"
+          ></i>
         </div>
         <div class="audio">
           <audio

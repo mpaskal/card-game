@@ -127,14 +127,14 @@ h1 {
 
 .fa-rotate.small {
   color: rgb(10, 93, 10);
-  margin: 2px 0 0 4px;
+  margin: 2px 5px 0 5px;
   cursor: pointer;
   font-size: 1rem;
 }
 
 .fa-rotate.small:hover {
   color: rgb(10, 93, 10);
-  margin: 2px 0 0 4px;
+  margin: 2px 5px 0 5px;
   box-shadow: 0 0.5px 0.5px 0.5px rgb(10, 93, 10);
   font-size: 0.9rem;
 }

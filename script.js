@@ -77,7 +77,6 @@ function renderBoard() {
   }
 
   let dateCopyright = todayDate();
-  console.log(dateCopyright);
   document.querySelector(
     ".copyright"
   ).innerHTML = `Copyright &copy; ${dateCopyright} LivenLab`;
@@ -186,13 +185,14 @@ function isMatchingPair(card, el) {
 }
 
 function loopMusic() {
-  console.log(document.querySelector("#music-control").getAttribute("loop"));
   if (document.querySelector("#music-control").getAttribute("loop") == null) {
     document.querySelector("#music-control").setAttribute("loop", "loop");
     document.querySelector(".fa-rotate").setAttribute("title", "Loop On");
+    document.querySelector(".loopLabel").textContent = "On";
   } else {
     document.querySelector("#music-control").removeAttribute("loop");
     document.querySelector(".fa-rotate").setAttribute("title", "Loop Off");
+    document.querySelector(".loopLabel").textContent = "Off";
   }
 }
 
@@ -225,10 +225,33 @@ function setNumberOfCards() {
   restart();
 }
 
+function playAll() {
+  let i = 1;
+  let nextSong = "";
+  const audioPlayer = document.querySelector("#music-control");
+  audioPlayer.src = `./assets/music/1.mp3`;
+  document.querySelector("#music-control").addEventListener(
+    "ended",
+    function () {
+      i += 1;
+      nextSong = `./assets/music/${i}.mp3`;
+      audioPlayer.src = nextSong;
+      audioPlayer.load();
+      audioPlayer.play();
+      if (i == 24) {
+        i = 0;
+      }
+    },
+    false
+  );
+}
 function setMusic() {
   let musicControl = document.querySelector("#music-control");
   localStorage.setItem("music", document.querySelector("#music").value);
-  if (localStorage.getItem("music") != "none") {
+  if (
+    localStorage.getItem("music") != "none" &&
+    localStorage.getItem("music") != "Play All"
+  ) {
     musicControl.removeAttribute("hidden");
     musicControl.setAttribute(
       "src",
@@ -240,8 +263,11 @@ function setMusic() {
   ) {
     musicControl.setAttribute("hidden", "hidden");
     musicControl.setAttribute("src", "");
+  } else if (localStorage.getItem("music") == "Play All") {
+    musicControl.removeAttribute("hidden");
+    playAll();
   }
-  if (document.querySelector("#music").value.length < 5) {
+  if (document.querySelector("#music").value == "none") {
     document.querySelector("#music").style.width = "80px";
   } else {
     document.querySelector("#music").style.width = "200px";

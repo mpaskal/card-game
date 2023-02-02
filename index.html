@@ -15,7 +15,7 @@
   </head>
   <body>
     <h1>
-      Best Memory &nbsp&nbsp<i
+      Best Memory &nbsp<i
         class="fa-solid fa-rotate-left"
         onClick="restart()"
         title="Restart the game"
@@ -66,58 +66,47 @@
           <label for="music">Music:&nbsp</label>
           <select id="music" name="music" onchange="setMusic()">
             <option value="none" selected>None</option>
-            <option value="01BirdPerson">01 Bird Person</option>
-            <option value="02ThePromiseOfTheWorld">
-              02 The Promise of the World
-            </option>
-            <option value="03Stroll">03 Stroll</option>
-            <option value="04TeruSong">04 Teru's Song</option>
-            <option value="05SummerOfGood-bye">05 Summer of Good-bye</option>
-            <option value="06NausicaaOfTheValley">
-              06 Nausicaä of the Valley
-            </option>
-            <option value="07OnceInAWhile">07 Once in a While</option>
-            <option value="08CountryRoad">08 Country Road</option>
-            <option value="09MessageOfRouge">09 Message Of Rouge</option>
-            <option value="10ThePathOfWind">10 The Path of Wind</option>
-            <option value="11PrincessMononoke">11 Princess Mononoke</option>
-            <option value="12HikoukiGumo">12 Hikouki-Gumo</option>
-            <option value="13AlwaysWithMe">13 Always With Me</option>
-            <option value="14ATownWithAnOceanView">
-              14 A Town with an Ocean View
-            </option>
-            <option value="15PonyoOnTheCliffyByTheSea">
-              15 Ponyo on the Cliff by the Sea
-            </option>
-            <option value="16ArriettySong">16 Arrietty's Song</option>
-            <option value="17TheNameOfLife">17 The Name of Life</option>
-            <option value="18MyNeighborTotoro">18 My Neighbor Totoro</option>
-            <option value="19TheLegendOfAshitaka">
-              19 The Legend of Ashitaka
-            </option>
-            <option value="20BecomeTheWind">20 Become The Wind</option>
-            <option value="21CarryingYou">21 Carrying You</option>
-            <option value="22NausicaaRequiem">22 Nausicaä Requiem</option>
-            <option value="23IfIveBeenEnvelopedByTendern">
-              23 If I've Been Enveloped By Tendern
-            </option>
-            <option value="24RepriseSpiritedAway">
-              24 Reprise Spirited Away
-            </option>
+            <option value="Play All">Play All</option>
+            <option value="1">01 Bird Person</option>
+            <option value="2">02 The Promise of the World</option>
+            <option value="3">03 Stroll</option>
+            <option value="4">04 Teru's Song</option>
+            <option value="5">05 Summer of Good-bye</option>
+            <option value="6">06 Nausicaä of the Valley</option>
+            <option value="7">07 Once in a While</option>
+            <option value="8">08 Country Road</option>
+            <option value="9">09 Message Of Rouge</option>
+            <option value="10">10 The Path of Wind</option>
+            <option value="11">11 Princess Mononoke</option>
+            <option value="12">12 Hikouki-Gumo</option>
+            <option value="13">13 Always With Me</option>
+            <option value="14">14 A Town with an Ocean View</option>
+            <option value="15">15 Ponyo on the Cliff by the Sea</option>
+            <option value="16">16 Arrietty's Song</option>
+            <option value="17">17 The Name of Life</option>
+            <option value="18">18 My Neighbor Totoro</option>
+            <option value="19">19 The Legend of Ashitaka</option>
+            <option value="20">20 Become The Wind</option>
+            <option value="21">21 Carrying You</option>
+            <option value="22">22 Nausicaä Requiem</option>
+            <option value="23">23 If I've Been Enveloped By Tendern</option>
+            <option value="24">24 Reprise Spirited Away</option>
           </select>
           <i
             class="fa-solid fa-rotate small"
             onClick="loopMusic()"
             title="Loop Off"
           ></i>
+          <p class="loopLabel">Off</p>
         </div>
         <div class="audio">
           <audio
             id="music-control"
             controls
             preload="auto"
+            autoplay
             hidden
-            src="./assets/music/02 The Promise of the World.mp3"
+            src="./assets/music/1.mp3"
             type="audio/mpeg"
           ></audio>
         </div>

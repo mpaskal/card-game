@@ -229,12 +229,30 @@ function playAll() {
   let i = 1;
   let nextSong = "";
   const audioPlayer = document.querySelector("#music-control");
-  audioPlayer.src = `./assets/music/1.mp3`;
+  if (
+    localStorage.getItem("music") != "none" &&
+    localStorage.getItem("music") != "Play All" &&
+    localStorage.getItem("music") != null
+  ) {
+    audioPlayer.src = `./assets/music/${localStorage.getItem("music")}.mp3`;
+  } else if (localStorage.getItem("trackForPlayAll") != null) {
+    audioPlayer.src = `./assets/music/${localStorage.getItem(
+      "trackForPlayAll"
+    )}.mp3`;
+  } else {
+    console.log("last");
+    localStorage.setItem("trackForPlayAll", i);
+    audioPlayer.src = `./assets/music/${localStorage.getItem(
+      "trackForPlayAll"
+    )}.mp3`;
+  }
+
   document.querySelector("#music-control").addEventListener(
     "ended",
     function () {
       i += 1;
       nextSong = `./assets/music/${i}.mp3`;
+      localStorage.setItem("trackForPlayAll", i);
       audioPlayer.src = nextSong;
       audioPlayer.load();
       audioPlayer.play();
@@ -247,12 +265,14 @@ function playAll() {
 }
 function setMusic() {
   let musicControl = document.querySelector("#music-control");
+  let playerReset = document.querySelector("#audio-reset");
   localStorage.setItem("music", document.querySelector("#music").value);
   if (
     localStorage.getItem("music") != "none" &&
     localStorage.getItem("music") != "Play All"
   ) {
     musicControl.removeAttribute("hidden");
+    playerReset.removeAttribute("hidden");
     musicControl.setAttribute(
       "src",
       `./assets/music/${localStorage.getItem("music")}.mp3`
@@ -261,9 +281,11 @@ function setMusic() {
     localStorage.getItem("music") == "none" &&
     !musicControl.getAttribute("hidden")
   ) {
+    playerReset.setAttribute("hidden", "hidden");
     musicControl.setAttribute("hidden", "hidden");
     musicControl.setAttribute("src", "");
   } else if (localStorage.getItem("music") == "Play All") {
+    playerReset.removeAttribute("hidden");
     musicControl.removeAttribute("hidden");
     playAll();
   }
@@ -272,6 +294,18 @@ function setMusic() {
   } else {
     document.querySelector("#music").style.width = "200px";
   }
+}
+
+function resetPlayer() {
+  let musicControl = document.querySelector("#music-control");
+  let playerReset = document.querySelector("#audio-reset");
+  playerReset.setAttribute("hidden", "hidden");
+  musicControl.setAttribute("hidden", "hidden");
+  musicControl.setAttribute("src", "");
+  localStorage.setItem("music", "none");
+  document.querySelector("#music").value = localStorage.getItem("music");
+  localStorage.removeItem("music");
+  localStorage.removeItem("trackForPlayAll");
 }
 
 function resetScores() {

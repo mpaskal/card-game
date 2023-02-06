@@ -16,7 +16,7 @@
   <body>
     <h1>
       Best Memory &nbsp<i
-        class="fa-solid fa-rotate-left"
+        class="fa-solid fa-rotate-left reset-top"
         onClick="restart()"
         title="Restart the game"
       ></i>
@@ -24,11 +24,11 @@
     <div class="game">
       <div class="board">
         <div class="score current">
-          Clicks:&nbsp<sping id="score-last"></sping>
+          Clicks:&nbsp<span id="score-last"></span>
         </div>
         <div class="score">
-          Best Scores for &nbsp<sping id="cards-number"> </sping>
-          &nbspcards:&nbsp<sping id="score-best"> </sping> &nbsp&nbsp<i
+          Best Scores for &nbsp<span id="cards-number"> </span>
+          &nbspcards:&nbsp<span id="score-best"> </span> &nbsp&nbsp<i
             class="fa-solid fa-rotate-left small"
             onClick="resetScores()"
             title="Reset best scores"
@@ -109,12 +109,20 @@
             src="./assets/music/1.mp3"
             type="audio/mpeg"
           ></audio>
+          <div id="audio-reset" hidden>
+            <i
+              class="fa-solid fa-rotate-left"
+              onClick="resetPlayer()"
+              title="Reset Player"
+            ></i>
+          </div>
         </div>
       </div>
+      <div className="page-end"></div>
     </div>
-    <div class="footer">
+    <footer class="footer">
       <hr size="1" color="#fe5112" />
       <small class="copyright"></small>
-    </div>
+    </footer>
   </body>
 </html>

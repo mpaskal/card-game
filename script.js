@@ -24,11 +24,11 @@ const cardsOrd = [
   "image-12",
   "image-12",
 ];
+const defaultNumberOfCards = 12;
 let cards = [];
 
 // set cards
 function renderBoard() {
-  const defaultNumberOfCards = 12;
   if (localStorage.getItem("cardsnumber") == null) {
     localStorage.setItem("cardsnumber", defaultNumberOfCards);
   } else {

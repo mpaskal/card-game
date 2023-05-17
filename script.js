@@ -44,13 +44,14 @@ function renderBoard() {
 function setCards() {
   setCardsNumber();
   setScores();
+  clearCards();
 
   let cardsRandom = shuffle(cardsOrd, numberOfCards);
 
   for (let i = 0; i < cardsRandom.length; i++) {
     let div = document.createElement("div");
     div.className = "card";
-    document.querySelector(".board").appendChild(div);
+    document.querySelector(".cards-container").appendChild(div);
   }
 
   cards = document.querySelectorAll(".card");
@@ -59,6 +60,13 @@ function setCards() {
     elem.classList.add(cardsRandom.pop());
     elem.addEventListener("click", onCardClick);
   });
+}
+
+function clearCards() {
+  const container = document.querySelector(".cards-container");
+  while (container.lastChild) {
+    container.removeChild(container.lastChild);
+  }
 }
 
 function setScores() {
@@ -322,7 +330,6 @@ function todayDate() {
 }
 
 function restart() {
-  cards.length = 0;
   setCards();
 }
 

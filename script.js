@@ -1,32 +1,33 @@
+const cardsOrd = [
+  "image-1",
+  "image-1",
+  "image-2",
+  "image-2",
+  "image-3",
+  "image-3",
+  "image-4",
+  "image-4",
+  "image-5",
+  "image-5",
+  "image-6",
+  "image-6",
+  "image-7",
+  "image-7",
+  "image-8",
+  "image-8",
+  "image-9",
+  "image-9",
+  "image-10",
+  "image-10",
+  "image-11",
+  "image-11",
+  "image-12",
+  "image-12",
+];
+let cards = [];
+
 // set cards
 function renderBoard() {
-  const cardsOrd = [
-    "image-1",
-    "image-1",
-    "image-2",
-    "image-2",
-    "image-3",
-    "image-3",
-    "image-4",
-    "image-4",
-    "image-5",
-    "image-5",
-    "image-6",
-    "image-6",
-    "image-7",
-    "image-7",
-    "image-8",
-    "image-8",
-    "image-9",
-    "image-9",
-    "image-10",
-    "image-10",
-    "image-11",
-    "image-11",
-    "image-12",
-    "image-12",
-  ];
-
   const defaultNumberOfCards = 12;
   if (localStorage.getItem("cardsnumber") == null) {
     localStorage.setItem("cardsnumber", defaultNumberOfCards);
@@ -60,22 +61,6 @@ function renderBoard() {
     document.querySelector(".board").appendChild(div);
   }
 
-  // set music
-  if (
-    localStorage.getItem("music") != null ||
-    localStorage.getItem("music") != undefined
-  ) {
-    document.querySelector("#music").value = localStorage.getItem("music");
-  } else {
-    localStorage.setItem("music", document.querySelector("#music").value);
-    document.querySelector("#music").value = localStorage.getItem("music");
-  }
-  if (document.querySelector("#music").value.length < 5) {
-    document.querySelector("#music").style.width = "80px";
-  } else {
-    document.querySelector("#music").style.width = "200px";
-  }
-
   let dateCopyright = todayDate();
   document.querySelector(
     ".copyright"
@@ -83,13 +68,17 @@ function renderBoard() {
 
   setMusic();
   // get list of cards
-  const cards = document.querySelectorAll(".card");
+  cards = document.querySelectorAll(".card");
 
-  // game setup
   cards.forEach((elem) => {
     elem.classList.add(cardsRandom.pop());
     elem.addEventListener("click", onCardClick);
   });
+  
+}
+
+function setCards() {
+  
 }
 
 // generate a random number
@@ -323,7 +312,8 @@ function todayDate() {
 }
 
 function restart() {
-  window.location.reload();
+  cards.length = 0;
+  setCards();
 }
 
 // start the game on page load

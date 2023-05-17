@@ -29,6 +29,25 @@ let cards = [];
 
 // set cards
 function renderBoard() {
+  document.querySelector("#score-last").textContent = `${localStorage.getItem(
+    "lastscore"
+  )} `;
+  document.querySelector(
+    "#cards-number"
+  ).textContent = ` ${localStorage.getItem("cardsnumber")} `;
+
+  document.querySelector(".congrats-container").style.display = "none";
+
+  let dateCopyright = todayDate();
+  document.querySelector(
+    ".copyright"
+  ).innerHTML = `Copyright &copy; ${dateCopyright} LivenLab`;
+
+  setMusic();
+  setCards();
+}
+
+function setCards() {
   if (localStorage.getItem("cardsnumber") == null) {
     localStorage.setItem("cardsnumber", defaultNumberOfCards);
   } else {
@@ -46,14 +65,6 @@ function renderBoard() {
   document.querySelector("#score-best").textContent = `${localStorage.getItem(
     `bestscore${numberOfCards}`
   )}`;
-  document.querySelector("#score-last").textContent = `${localStorage.getItem(
-    "lastscore"
-  )} `;
-  document.querySelector(
-    "#cards-number"
-  ).textContent = ` ${localStorage.getItem("cardsnumber")} `;
-
-  document.querySelector(".congrats-container").style.display = "none";
 
   for (let i = 0; i < cardsRandom.length; i++) {
     let div = document.createElement("div");
@@ -61,16 +72,6 @@ function renderBoard() {
     document.querySelector(".board").appendChild(div);
   }
 
-  let dateCopyright = todayDate();
-  document.querySelector(
-    ".copyright"
-  ).innerHTML = `Copyright &copy; ${dateCopyright} LivenLab`;
-
-  setMusic();
-  setCards();
-}
-
-function setCards() {
   cards = document.querySelectorAll(".card");
 
   cards.forEach((elem) => {

@@ -25,6 +25,7 @@ const cardsOrd = [
   "image-12",
 ];
 const defaultNumberOfCards = 12;
+let numberOfCards = defaultNumberOfCards;
 let cards = [];
 
 // set cards
@@ -54,7 +55,7 @@ function setCards() {
     document.querySelector("#number-cards").value =
       localStorage.getItem("cardsnumber");
   }
-  let numberOfCards = localStorage.getItem("cardsnumber");
+  numberOfCards = localStorage.getItem("cardsnumber");
   let cardsRandom = shuffle(cardsOrd, numberOfCards);
   let numBestResult = localStorage.getItem(`bestscore${numberOfCards}`);
   if (numBestResult == null) {

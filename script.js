@@ -67,18 +67,16 @@ function renderBoard() {
   ).innerHTML = `Copyright &copy; ${dateCopyright} LivenLab`;
 
   setMusic();
-  // get list of cards
+  setCards();
+}
+
+function setCards() {
   cards = document.querySelectorAll(".card");
 
   cards.forEach((elem) => {
     elem.classList.add(cardsRandom.pop());
     elem.addEventListener("click", onCardClick);
   });
-  
-}
-
-function setCards() {
-  
 }
 
 // generate a random number

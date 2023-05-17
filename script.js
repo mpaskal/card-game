@@ -43,22 +43,9 @@ function renderBoard() {
 
 function setCards() {
   setCardsNumber();
+  setScores();
+
   let cardsRandom = shuffle(cardsOrd, numberOfCards);
-  let numBestResult = localStorage.getItem(`bestscore${numberOfCards}`);
-  if (numBestResult == null) {
-    localStorage.setItem(`bestscore${numberOfCards}`, 0);
-  }
-  localStorage.setItem("lastscore", 0);
-
-  
-
-  document.querySelector("#score-best").textContent = `${localStorage.getItem(
-    `bestscore${numberOfCards}`
-  )}`;
-
-  document.querySelector("#score-last").textContent = `${localStorage.getItem(
-    "lastscore"
-  )} `;
 
   for (let i = 0; i < cardsRandom.length; i++) {
     let div = document.createElement("div");
@@ -72,6 +59,22 @@ function setCards() {
     elem.classList.add(cardsRandom.pop());
     elem.addEventListener("click", onCardClick);
   });
+}
+
+function setScores() {
+  let numBestResult = localStorage.getItem(`bestscore${numberOfCards}`);
+  if (numBestResult == null) {
+    localStorage.setItem(`bestscore${numberOfCards}`, 0);
+  }
+  localStorage.setItem("lastscore", 0);
+
+  document.querySelector("#score-best").textContent = `${localStorage.getItem(
+    `bestscore${numberOfCards}`
+  )}`;
+
+  document.querySelector("#score-last").textContent = `${localStorage.getItem(
+    "lastscore"
+  )} `;
 }
 
 function setCardsNumber() {

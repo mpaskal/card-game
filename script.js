@@ -1,41 +1,73 @@
-// set cards
-function renderBoard() {
-  const cardsOrd = [
-    "image-1",
-    "image-1",
-    "image-2",
-    "image-2",
-    "image-3",
-    "image-3",
-    "image-4",
-    "image-4",
-    "image-5",
-    "image-5",
-    "image-6",
-    "image-6",
-    "image-7",
-    "image-7",
-    "image-8",
-    "image-8",
-    "image-9",
-    "image-9",
-    "image-10",
-    "image-10",
-    "image-11",
-    "image-11",
-    "image-12",
-    "image-12",
-  ];
+const cardsOrd = [
+  "image-1",
+  "image-1",
+  "image-2",
+  "image-2",
+  "image-3",
+  "image-3",
+  "image-4",
+  "image-4",
+  "image-5",
+  "image-5",
+  "image-6",
+  "image-6",
+  "image-7",
+  "image-7",
+  "image-8",
+  "image-8",
+  "image-9",
+  "image-9",
+  "image-10",
+  "image-10",
+  "image-11",
+  "image-11",
+  "image-12",
+  "image-12",
+];
+const defaultNumberOfCards = 12;
+let numberOfCards = defaultNumberOfCards;
+let cards = [];
 
-  const defaultNumberOfCards = 12;
-  if (localStorage.getItem("cardsnumber") == null) {
-    localStorage.setItem("cardsnumber", defaultNumberOfCards);
-  } else {
-    document.querySelector("#number-cards").value =
-      localStorage.getItem("cardsnumber");
-  }
-  let numberOfCards = localStorage.getItem("cardsnumber");
+function renderBoard() {
+  let dateCopyright = todayDate();
+  document.querySelector(
+    ".copyright"
+  ).innerHTML = `Copyright &copy; ${dateCopyright} LivenLab`;
+
+  setMusic();
+  setCards();
+}
+
+function setCards() {
+  document.querySelector(".congrats-container").style.display = "none";
+  setCardsNumber();
+  setScores();
+  clearCards();
+
   let cardsRandom = shuffle(cardsOrd, numberOfCards);
+
+  for (let i = 0; i < cardsRandom.length; i++) {
+    let div = document.createElement("div");
+    div.className = "card";
+    document.querySelector(".cards-container").appendChild(div);
+  }
+
+  cards = document.querySelectorAll(".card");
+
+  cards.forEach((elem) => {
+    elem.classList.add(cardsRandom.pop());
+    elem.addEventListener("click", onCardClick);
+  });
+}
+
+function clearCards() {
+  const container = document.querySelector(".cards-container");
+  while (container.lastChild) {
+    container.removeChild(container.lastChild);
+  }
+}
+
+function setScores() {
   let numBestResult = localStorage.getItem(`bestscore${numberOfCards}`);
   if (numBestResult == null) {
     localStorage.setItem(`bestscore${numberOfCards}`, 0);
@@ -45,51 +77,24 @@ function renderBoard() {
   document.querySelector("#score-best").textContent = `${localStorage.getItem(
     `bestscore${numberOfCards}`
   )}`;
+
   document.querySelector("#score-last").textContent = `${localStorage.getItem(
     "lastscore"
   )} `;
+}
+
+function setCardsNumber() {
+  if (localStorage.getItem("cardsnumber") == null) {
+    localStorage.setItem("cardsnumber", defaultNumberOfCards);
+  } else {
+    document.querySelector("#number-cards").value =
+      localStorage.getItem("cardsnumber");
+  }
+  numberOfCards = localStorage.getItem("cardsnumber");
+
   document.querySelector(
     "#cards-number"
-  ).textContent = ` ${localStorage.getItem("cardsnumber")} `;
-
-  document.querySelector(".congrats-container").style.display = "none";
-
-  for (let i = 0; i < cardsRandom.length; i++) {
-    let div = document.createElement("div");
-    div.className = "card";
-    document.querySelector(".board").appendChild(div);
-  }
-
-  // set music
-  if (
-    localStorage.getItem("music") != null ||
-    localStorage.getItem("music") != undefined
-  ) {
-    document.querySelector("#music").value = localStorage.getItem("music");
-  } else {
-    localStorage.setItem("music", document.querySelector("#music").value);
-    document.querySelector("#music").value = localStorage.getItem("music");
-  }
-  if (document.querySelector("#music").value.length < 5) {
-    document.querySelector("#music").style.width = "80px";
-  } else {
-    document.querySelector("#music").style.width = "200px";
-  }
-
-  let dateCopyright = todayDate();
-  document.querySelector(
-    ".copyright"
-  ).innerHTML = `Copyright &copy; ${dateCopyright} LivenLab`;
-
-  setMusic();
-  // get list of cards
-  const cards = document.querySelectorAll(".card");
-
-  // game setup
-  cards.forEach((elem) => {
-    elem.classList.add(cardsRandom.pop());
-    elem.addEventListener("click", onCardClick);
-  });
+  ).textContent = ` ${numberOfCards} `;
 }
 
 // generate a random number
@@ -99,12 +104,13 @@ function calcRandomNumber(newLength) {
 
 // adjust array size
 function arraySize(array, newLength) {
+  let newArray = array.slice();
   let originalArrayLength = array.length;
   while (originalArrayLength > newLength) {
-    array.pop();
+    newArray.pop();
     originalArrayLength--;
   }
-  return array;
+  return newArray;
 }
 
 // randomize an array
@@ -323,7 +329,7 @@ function todayDate() {
 }
 
 function restart() {
-  window.location.reload();
+  setCards();
 }
 
 // start the game on page load

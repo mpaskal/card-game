@@ -30,8 +30,6 @@ let cards = [];
 
 // set cards
 function renderBoard() {
-  document.querySelector(".congrats-container").style.display = "none";
-
   let dateCopyright = todayDate();
   document.querySelector(
     ".copyright"
@@ -42,6 +40,7 @@ function renderBoard() {
 }
 
 function setCards() {
+  document.querySelector(".congrats-container").style.display = "none";
   setCardsNumber();
   setScores();
   clearCards();

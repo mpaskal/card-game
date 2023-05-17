@@ -30,13 +30,6 @@ let cards = [];
 
 // set cards
 function renderBoard() {
-  document.querySelector("#score-last").textContent = `${localStorage.getItem(
-    "lastscore"
-  )} `;
-  document.querySelector(
-    "#cards-number"
-  ).textContent = ` ${localStorage.getItem("cardsnumber")} `;
-
   document.querySelector(".congrats-container").style.display = "none";
 
   let dateCopyright = todayDate();
@@ -63,9 +56,17 @@ function setCards() {
   }
   localStorage.setItem("lastscore", 0);
 
+  document.querySelector(
+    "#cards-number"
+  ).textContent = ` ${localStorage.getItem("cardsnumber")} `;
+
   document.querySelector("#score-best").textContent = `${localStorage.getItem(
     `bestscore${numberOfCards}`
   )}`;
+
+  document.querySelector("#score-last").textContent = `${localStorage.getItem(
+    "lastscore"
+  )} `;
 
   for (let i = 0; i < cardsRandom.length; i++) {
     let div = document.createElement("div");

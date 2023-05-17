@@ -28,7 +28,6 @@ const defaultNumberOfCards = 12;
 let numberOfCards = defaultNumberOfCards;
 let cards = [];
 
-// set cards
 function renderBoard() {
   let dateCopyright = todayDate();
   document.querySelector(
@@ -105,12 +104,13 @@ function calcRandomNumber(newLength) {
 
 // adjust array size
 function arraySize(array, newLength) {
+  let newArray = array.slice();
   let originalArrayLength = array.length;
   while (originalArrayLength > newLength) {
-    array.pop();
+    newArray.pop();
     originalArrayLength--;
   }
-  return array;
+  return newArray;
 }
 
 // randomize an array

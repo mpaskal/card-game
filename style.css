@@ -269,6 +269,9 @@ button:active {
 }
 
 @media screen and (max-width: 1000px) {
+  .board {
+    width: 85%;
+  }
   .congrats-container {
     margin: 5% 10% 5% auto; 
     width: 70%;
@@ -338,6 +341,9 @@ button:active {
 }
 
 @media only screen and (max-width: 600px) {
+  .board {
+    width: 95%;
+  }
   .congrats-container {
     margin: 5% 10% 5% auto;
     width: 80%;

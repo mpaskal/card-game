@@ -56,10 +56,9 @@ h1 {
   cursor: pointer;
   display: inline-block;
   margin: 0.5rem 0 0 0.8rem;
-  max-width: var(--card-width);
-  max-height: var(--card-height);
   width: 25%;
-  aspect-ratio: 8 / 9;
+  max-width: var(--card-width);
+  aspect-ratio: 1 / 1;
   background-image: var(--card-back-image);
   background-size: cover;
   background-position: 35% 0%;
@@ -73,55 +72,98 @@ h1 {
 }
 
 .flipped-up.image-1 {
-  background-position: -10px -10px;
+  background-image: var(--cards-arriety-image);
+  background-position: 9% 0%;
 }
 
 .flipped-up.image-2 {
-  background-position: -262px -10px;
+  background-image: var(--cards-arriety-image);
+  background-position: 49% 0%;
 }
 
 .flipped-up.image-3 {
-  background-position: -462px -12px;
+  background-image: var(--cards-arriety-image);
+  background-position: 89% 0%;
 }
 
 .flipped-up.image-4 {
-  background-position: -690px -20px;
+  background-image: var(--cards-arriety-image);
+  background-position: 9% 50%;
 }
 
 .flipped-up.image-5 {
-  background-position: -254px -235px;
+  background-image: var(--cards-arriety-image);
+  background-position: 49% 50%;
 }
 
 .flipped-up.image-6 {
-  background-position: -10px -224px;
+  background-image: var(--cards-arriety-image);
+  background-position: 89% 50%;
 }
 
 .flipped-up.image-7 {
-  background-position: -446px -226px;
+  background-image: var(--cards-arriety-image);
+  background-position: 9% 100%;
 }
 
 .flipped-up.image-8 {
-  background-position: -464px -444px;
+  background-image: var(--cards-arriety-image);
+  background-position: 49% 100%;
 }
 
 .flipped-up.image-9 {
-  background-position: -1142px -440px;
+  background-image: var(--cards-arriety-image);
+  background-position: 89% 100%;
 }
 
 .flipped-up.image-10 {
-  background-position: -10px -442px;
+  background-image: var(--cards-kiki-image);
+  background-position: 9% 0%;
 }
 
 .flipped-up.image-11 {
-  background-position: -260px -447px;
+  background-image: var(--cards-kiki-image);
+  background-position: 49% 0%;
 }
 
 .flipped-up.image-12 {
-  background-position: -884px -446px;
+  background-image: var(--cards-kiki-image);
+  background-position: 89% 0%;
+}
+
+.flipped-up.image-13 {
+  background-image: var(--cards-kiki-image);
+  background-position: 9% 50%;
+}
+
+.flipped-up.image-14 {
+  background-image: var(--cards-kiki-image);
+  background-position: 49% 50%;
+}
+
+.flipped-up.image-15 {
+  background-image: var(--cards-kiki-image);
+  background-position: 89% 50%;
+}
+
+.flipped-up.image-16 {
+  background-image: var(--cards-kiki-image);
+  background-position: 9% 100%;
+}
+
+.flipped-up.image-17 {
+  background-image: var(--cards-kiki-image);
+  background-position: 49% 100%;
+}
+
+.flipped-up.image-18 {
+  background-image: var(--cards-kiki-image);
+  background-position: 89% 100%;
 }
 
 .card.flipped-up {
   transform: rotateY(180deg);
+  background-size: 560%;
 }
 
 .cards-set {

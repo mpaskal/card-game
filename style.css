@@ -179,6 +179,12 @@ h1 {
   font-size: 1rem;
 }
 
+#card-sets {
+  color: var(--cards-number-color);
+  font-size: 1rem;
+  text-overflow: ellipsis;
+}
+
 .score {
   display: flex;
   justify-content: end;
@@ -289,7 +295,7 @@ button:active {
 }
 
 #music {
-  color: rgb(173, 113, 2);
+  color: var(--cards-number-color);
   font-size: 1rem;
   text-overflow: ellipsis;
 }

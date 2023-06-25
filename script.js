@@ -23,9 +23,23 @@ const cardsOrd = [
   "image-11",
   "image-12",
   "image-12",
+  "image-13",
+  "image-13",
+  "image-14",
+  "image-14",
+  "image-15",
+  "image-15",
+  "image-16",
+  "image-16",
+  "image-17",
+  "image-17",
+  "image-18",
+  "image-18",
 ];
 const defaultNumberOfCards = 12;
+const defaultCardSets = "all";
 let numberOfCards = defaultNumberOfCards;
+let cardSets = defaultCardSets;
 let cards = [];
 
 function renderBoard() {
@@ -315,8 +329,9 @@ function resetPlayer() {
 }
 
 function setCardSets() {
-  console.log(document.querySelector("#card-sets").value);
   localStorage.setItem("cardsets", document.querySelector("#card-sets").value);
+  cardSets = localStorage.getItem("cardsets");
+  restart();
 }
 
 function resetScores() {

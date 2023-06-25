@@ -314,6 +314,11 @@ function resetPlayer() {
   localStorage.removeItem("trackForPlayAll");
 }
 
+function setCardSets() {
+  console.log(document.querySelector("#card-sets").value);
+  localStorage.setItem("cardsets", document.querySelector("#card-sets").value);
+}
+
 function resetScores() {
   let currentNum = document.querySelector("#cards-number").textContent.trim();
   localStorage.setItem(`bestscore${currentNum}`, 0);

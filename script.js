@@ -67,9 +67,9 @@ function setCards() {
     cardSet = cardsOrd.slice(18, 36);
   }
 
-  let cardsRandom = shuffle(cardSet, numberOfCards);
+  console.log(cardSet);
 
-  console.log(cardsRandom);
+  let cardsRandom = shuffle(cardSet, numberOfCards);
 
   for (let i = 0; i < cardsRandom.length; i++) {
     let div = document.createElement("div");
@@ -140,10 +140,16 @@ function calcRandomNumber(newLength) {
 // adjust array size
 function arraySize(array, newLength) {
   let newArray = array.slice();
-  let originalArrayLength = array.length;
-  while (originalArrayLength > newLength) {
-    newArray.pop();
-    originalArrayLength--;
+  if (array.length > newLength) {
+    while (newArray.length > newLength) {
+      newArray.pop();
+    }
+  } else {
+    while (newArray.length < newLength) {
+      let randomIndex = calcRandomNumber(array.length);
+      newArray.push(array[randomIndex]);
+      newArray.push(array[randomIndex]);
+    }
   }
   return newArray;
 }
@@ -152,8 +158,10 @@ function arraySize(array, newLength) {
 function shuffle(array, newLength) {
   let currentIndex = newLength - 1;
   let adjustedArray = arraySize(array, newLength);
+
   while (currentIndex != 0) {
     let randomIndex = calcRandomNumber(newLength);
+
     [adjustedArray[currentIndex], adjustedArray[randomIndex]] = [
       adjustedArray[randomIndex],
       adjustedArray[currentIndex],

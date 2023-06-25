@@ -53,6 +53,14 @@
             <option value="24">24</option>
           </select>
         </div>
+        <div class="cards-set">
+          <label for="card-sets">Card sets:&nbsp</label>
+          <select id="card-sets" name="card-sets" onchange="setCardSets()">
+            <option value="all" selected>Select all</option>
+            <option value="arriety">Arrietty</option>
+            <option value="kiki">Kiki's Delivery Service</option>
+          </select>
+        </div>
 
         <div class="congrats-container" id="congrats-container">
           <div class="congrats-text">
@@ -116,14 +124,6 @@
               title="Reset Player"
             ></i>
           </div>
-        </div>
-        <div>
-          <label for="card-sets">Card sets:</label>
-          <select id="card-sets" name="card-sets" onchange="setCardSets()">
-            <option value="all" selected>Select all</option>
-            <option value="arriety">Arrietty</option>
-            <option value="kiki">Kiki's Delivery Service</option>
-          </select>
         </div>
 
         <div class="cards-container">

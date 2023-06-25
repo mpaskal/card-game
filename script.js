@@ -62,15 +62,14 @@ function setCards() {
   clearCards();
 
   if (cardSets == "arrietty") {
-    cardSet = cardsOrd.slice(0, 8);
+    cardSet = cardsOrd.slice(0, 18);
   } else if (cardSets == "kiki") {
-    cardSet = cardsOrd.slice(9, 17);
+    cardSet = cardsOrd.slice(18, 36);
   }
 
-  console.log(cardSets);
-  console.log(cardSet);
-
   let cardsRandom = shuffle(cardSet, numberOfCards);
+
+  console.log(cardsRandom);
 
   for (let i = 0; i < cardsRandom.length; i++) {
     let div = document.createElement("div");

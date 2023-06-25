@@ -53,12 +53,24 @@ function renderBoard() {
 }
 
 function setCards() {
+  let cardSet = cardsOrd;
+
   document.querySelector(".congrats-container").style.display = "none";
   setCardsNumber();
+  setStartingCardSets();
   setScores();
   clearCards();
 
-  let cardsRandom = shuffle(cardsOrd, numberOfCards);
+  if (cardSets == "arrietty") {
+    cardSet = cardsOrd.slice(0, 8);
+  } else if (cardSets == "kiki") {
+    cardSet = cardsOrd.slice(9, 17);
+  }
+
+  console.log(cardSets);
+  console.log(cardSet);
+
+  let cardsRandom = shuffle(cardSet, numberOfCards);
 
   for (let i = 0; i < cardsRandom.length; i++) {
     let div = document.createElement("div");
@@ -109,6 +121,16 @@ function setCardsNumber() {
   document.querySelector(
     "#cards-number"
   ).textContent = ` ${numberOfCards} `;
+}
+
+function setStartingCardSets() {
+  if (localStorage.getItem("cardsets") == null) {
+    localStorage.setItem("cardsets", defaultCardSets);
+  } else {
+    document.querySelector("#card-sets").value =
+      localStorage.getItem("cardsets");
+  }
+  cardSets = localStorage.getItem("cardsets");
 }
 
 // generate a random number
@@ -245,6 +267,15 @@ function setNumberOfCards() {
   restart();
 }
 
+function setCardSets() {
+  localStorage.setItem(
+    "cardsets",
+    document.querySelector("#card-sets").value
+  );
+  localStorage.getItem("card-sets");
+  restart();
+}
+
 function playAll() {
   let i = 1;
   let nextSong = "";
@@ -326,12 +357,6 @@ function resetPlayer() {
   document.querySelector("#music").value = localStorage.getItem("music");
   localStorage.removeItem("music");
   localStorage.removeItem("trackForPlayAll");
-}
-
-function setCardSets() {
-  localStorage.setItem("cardsets", document.querySelector("#card-sets").value);
-  cardSets = localStorage.getItem("cardsets");
-  restart();
 }
 
 function resetScores() {

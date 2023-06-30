@@ -1,31 +1,9 @@
-const cardsOrd = [
-  "image-1",
-  "image-1",
-  "image-2",
-  "image-2",
-  "image-3",
-  "image-3",
-  "image-4",
-  "image-4",
-  "image-5",
-  "image-5",
-  "image-6",
-  "image-6",
-  "image-7",
-  "image-7",
-  "image-8",
-  "image-8",
-  "image-9",
-  "image-9",
-  "image-10",
-  "image-10",
-  "image-11",
-  "image-11",
-  "image-12",
-  "image-12",
-];
+const totalSets = 8;
+const totalCards = 9 * totalSets;
 const defaultNumberOfCards = 12;
+const defaultCardSets = "all";
 let numberOfCards = defaultNumberOfCards;
+let cardSets = defaultCardSets;
 let cards = [];
 
 function renderBoard() {
@@ -39,12 +17,39 @@ function renderBoard() {
 }
 
 function setCards() {
+  let cardSet = [];
+
   document.querySelector(".congrats-container").style.display = "none";
   setCardsNumber();
+  setStartingCardSets();
   setScores();
   clearCards();
 
-  let cardsRandom = shuffle(cardsOrd, numberOfCards);
+  for (let i = 1; i <= totalCards; i++) {
+    cardSet.push(i);
+  }
+
+  if (cardSets == "totoro") {
+    cardSet = cardSet.slice(0, 9);
+  } else if (cardSets == "kiki") {
+    cardSet = cardSet.slice(9, 18);
+  } else if (cardSets == "woth") {
+    cardSet = cardSet.slice(18, 27);
+  } else if (cardSets == "mononoke") {
+    cardSet = cardSet.slice(27, 36);
+  } else if (cardSets == "spirited-away") {
+    cardSet = cardSet.slice(36, 45);
+  } else if (cardSets == "howl") {
+    cardSet = cardSet.slice(45, 54);
+  } else if (cardSets == "arrietty") {
+    cardSet = cardSet.slice(54, 63);
+  } else if (cardSets == "marnie") {
+    cardSet = cardSet.slice(63, 72);
+  }
+
+  cardSet = cardSet.concat(cardSet);
+
+  let cardsRandom = shuffle(cardSet, numberOfCards);
 
   for (let i = 0; i < cardsRandom.length; i++) {
     let div = document.createElement("div");
@@ -55,9 +60,36 @@ function setCards() {
   cards = document.querySelectorAll(".card");
 
   cards.forEach((elem) => {
-    elem.classList.add(cardsRandom.pop());
+    let cardNumber = cardsRandom.pop();
+    elem.classList.add("image-" + cardNumber);
+    elem.classList.add("pos-" + (cardNumber % 9 + 1));
+    elem.classList.add(getSet(cardNumber));
     elem.addEventListener("click", onCardClick);
   });
+}
+
+function getSet(cardNumber) {
+  let set = "";
+
+  if (cardNumber <= 9) {
+    set = "totoro";
+  } else if (cardNumber <= 18) {
+    set = "kiki";
+  } else if (cardNumber <= 27) {
+    set = "woth"
+  } else if (cardNumber <= 36) {
+    set = "mononoke"
+  } else if (cardNumber <= 45) {
+    set = "spirited-away"
+  } else if (cardNumber <= 54) {
+    set = "howl"
+  } else if (cardNumber <= 63) {
+    set = "arrietty"
+  } else if (cardNumber <= 72) {
+    set = "marnie"
+  }
+
+  return set;
 }
 
 function clearCards() {
@@ -97,6 +129,16 @@ function setCardsNumber() {
   ).textContent = ` ${numberOfCards} `;
 }
 
+function setStartingCardSets() {
+  if (localStorage.getItem("cardsets") == null) {
+    localStorage.setItem("cardsets", defaultCardSets);
+  } else {
+    document.querySelector("#card-sets").value =
+      localStorage.getItem("cardsets");
+  }
+  cardSets = localStorage.getItem("cardsets");
+}
+
 // generate a random number
 function calcRandomNumber(newLength) {
   return Math.floor(Math.random() * newLength);
@@ -105,10 +147,19 @@ function calcRandomNumber(newLength) {
 // adjust array size
 function arraySize(array, newLength) {
   let newArray = array.slice();
-  let originalArrayLength = array.length;
-  while (originalArrayLength > newLength) {
-    newArray.pop();
-    originalArrayLength--;
+  if (array.length > newLength) {
+    while (newArray.length > newLength) {
+      let randomIndex = calcRandomNumber(newArray.length);
+      let image = newArray[randomIndex];
+      newArray.splice(newArray.indexOf(image), 1);
+      newArray.splice(newArray.indexOf(image), 1);
+    }
+  } else {
+    while (newArray.length < newLength) {
+      let randomIndex = calcRandomNumber(array.length);
+      newArray.push(array[randomIndex]);
+      newArray.push(array[randomIndex]);
+    }
   }
   return newArray;
 }
@@ -117,8 +168,10 @@ function arraySize(array, newLength) {
 function shuffle(array, newLength) {
   let currentIndex = newLength - 1;
   let adjustedArray = arraySize(array, newLength);
+
   while (currentIndex != 0) {
     let randomIndex = calcRandomNumber(newLength);
+
     [adjustedArray[currentIndex], adjustedArray[randomIndex]] = [
       adjustedArray[randomIndex],
       adjustedArray[currentIndex],
@@ -228,6 +281,15 @@ function setNumberOfCards() {
     document.querySelector("#number-cards").value
   );
   localStorage.getItem("cardsnumber");
+  restart();
+}
+
+function setCardSets() {
+  localStorage.setItem(
+    "cardsets",
+    document.querySelector("#card-sets").value
+  );
+  localStorage.getItem("card-sets");
   restart();
 }
 

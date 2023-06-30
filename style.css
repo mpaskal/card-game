@@ -76,6 +76,7 @@ h1 {
 
 .cards-container {
   width: 100%;
+  margin-bottom: 50px;
 }
 
 .flipped-up.pos-1 {

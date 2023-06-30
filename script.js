@@ -142,7 +142,10 @@ function arraySize(array, newLength) {
   let newArray = array.slice();
   if (array.length > newLength) {
     while (newArray.length > newLength) {
-      newArray.pop();
+      let randomIndex = calcRandomNumber(array.length);
+      let image = newArray[randomIndex];
+      newArray.splice(newArray.indexOf(image), 1);
+      newArray.splice(newArray.indexOf(image), 1);
     }
   } else {
     while (newArray.length < newLength) {

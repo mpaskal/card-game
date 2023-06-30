@@ -48,7 +48,6 @@ function setCards() {
   }
 
   cardSet = cardSet.concat(cardSet);
-  console.log(cardSet);
 
   let cardsRandom = shuffle(cardSet, numberOfCards);
 
@@ -63,29 +62,33 @@ function setCards() {
   cards.forEach((elem) => {
     let cardNumber = cardsRandom.pop();
     elem.classList.add("image-" + cardNumber);
-    elem.classList.add("pos-" + cardNumber % 9);
+    elem.classList.add("pos-" + (cardNumber % 9 + 1));
     elem.classList.add(getSet(cardNumber));
     elem.addEventListener("click", onCardClick);
   });
 }
 
 function getSet(cardNumber) {
-  let set = "totoro";
-  if (cardNumber > 9) {
+  let set = "";
+
+  if (cardNumber <= 9) {
+    set = "totoro";
+  } else if (cardNumber <= 18) {
     set = "kiki";
-  } else if (cardNumber > 18) {
+  } else if (cardNumber <= 27) {
     set = "woth"
-  } else if (cardNumber > 27) {
+  } else if (cardNumber <= 36) {
     set = "mononoke"
-  } else if (cardNumber > 36) {
+  } else if (cardNumber <= 45) {
     set = "spirited-away"
-  } else if (cardNumber > 45) {
+  } else if (cardNumber <= 54) {
     set = "howl"
-  } else if (cardNumber > 54) {
+  } else if (cardNumber <= 63) {
     set = "arrietty"
-  } else if (cardNumber > 63) {
+  } else if (cardNumber <= 72) {
     set = "marnie"
   }
+
   return set;
 }
 
@@ -146,7 +149,7 @@ function arraySize(array, newLength) {
   let newArray = array.slice();
   if (array.length > newLength) {
     while (newArray.length > newLength) {
-      let randomIndex = calcRandomNumber(array.length);
+      let randomIndex = calcRandomNumber(newArray.length);
       let image = newArray[randomIndex];
       newArray.splice(newArray.indexOf(image), 1);
       newArray.splice(newArray.indexOf(image), 1);

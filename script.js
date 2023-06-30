@@ -1,41 +1,5 @@
-const cardsOrd = [
-  "image-1",
-  "image-1",
-  "image-2",
-  "image-2",
-  "image-3",
-  "image-3",
-  "image-4",
-  "image-4",
-  "image-5",
-  "image-5",
-  "image-6",
-  "image-6",
-  "image-7",
-  "image-7",
-  "image-8",
-  "image-8",
-  "image-9",
-  "image-9",
-  "image-10",
-  "image-10",
-  "image-11",
-  "image-11",
-  "image-12",
-  "image-12",
-  "image-13",
-  "image-13",
-  "image-14",
-  "image-14",
-  "image-15",
-  "image-15",
-  "image-16",
-  "image-16",
-  "image-17",
-  "image-17",
-  "image-18",
-  "image-18",
-];
+const totalSets = 8;
+const totalCards = 9 * totalSets;
 const defaultNumberOfCards = 12;
 const defaultCardSets = "all";
 let numberOfCards = defaultNumberOfCards;
@@ -53,7 +17,7 @@ function renderBoard() {
 }
 
 function setCards() {
-  let cardSet = cardsOrd;
+  let cardSet = [];
 
   document.querySelector(".congrats-container").style.display = "none";
   setCardsNumber();
@@ -61,13 +25,16 @@ function setCards() {
   setScores();
   clearCards();
 
-  if (cardSets == "arrietty") {
-    cardSet = cardsOrd.slice(0, 18);
-  } else if (cardSets == "kiki") {
-    cardSet = cardsOrd.slice(18, 36);
+  for (let i = 1; i <= totalCards; i++) {
+    cardSet.push(i);
+    cardSet.push(i);
   }
 
-  console.log(cardSet);
+  if (cardSets == "arrietty") {
+    cardSet = cardSet.slice(0, 18);
+  } else if (cardSets == "kiki") {
+    cardSet = cardSet.slice(18, 36);
+  }
 
   let cardsRandom = shuffle(cardSet, numberOfCards);
 
@@ -80,9 +47,32 @@ function setCards() {
   cards = document.querySelectorAll(".card");
 
   cards.forEach((elem) => {
-    elem.classList.add(cardsRandom.pop());
+    let cardNumber = cardsRandom.pop();
+    elem.classList.add("image-" + cardNumber);
+    elem.classList.add("pos-" + cardNumber / 9);
+    elem.classList.add(getSet(cardNumber));
     elem.addEventListener("click", onCardClick);
   });
+}
+
+function getSet(cardNumber) {
+  let set = "totoro";
+  if (cardNumber > 9) {
+    set = "kiki";
+  } else if (cardNumber > 18) {
+    set = "woth"
+  } else if (cardNumber > 27) {
+    set = "mononoke"
+  } else if (cardNumber > 36) {
+    set = "spirited-away"
+  } else if (cardNumber > 45) {
+    set = "howl"
+  } else if (cardNumber > 54) {
+    set = "arrietty"
+  } else if (cardNumber > 63) {
+    set = "marnie"
+  }
+  return set;
 }
 
 function clearCards() {

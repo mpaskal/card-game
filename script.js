@@ -27,14 +27,28 @@ function setCards() {
 
   for (let i = 1; i <= totalCards; i++) {
     cardSet.push(i);
-    cardSet.push(i);
   }
 
-  if (cardSets == "arrietty") {
-    cardSet = cardSet.slice(0, 18);
+  if (cardSets == "totoro") {
+    cardSet = cardSet.slice(0, 9);
   } else if (cardSets == "kiki") {
-    cardSet = cardSet.slice(18, 36);
+    cardSet = cardSet.slice(9, 18);
+  } else if (cardSets == "woth") {
+    cardSet = cardSet.slice(18, 27);
+  } else if (cardSets == "mononoke") {
+    cardSet = cardSet.slice(27, 36);
+  } else if (cardSets == "spirited-away") {
+    cardSet = cardSet.slice(36, 45);
+  } else if (cardSets == "howl") {
+    cardSet = cardSet.slice(45, 54);
+  } else if (cardSets == "arrietty") {
+    cardSet = cardSet.slice(54, 63);
+  } else if (cardSets == "marnie") {
+    cardSet = cardSet.slice(63, 72);
   }
+
+  cardSet = cardSet.concat(cardSet);
+  console.log(cardSet);
 
   let cardsRandom = shuffle(cardSet, numberOfCards);
 
@@ -49,7 +63,7 @@ function setCards() {
   cards.forEach((elem) => {
     let cardNumber = cardsRandom.pop();
     elem.classList.add("image-" + cardNumber);
-    elem.classList.add("pos-" + cardNumber / 9);
+    elem.classList.add("pos-" + cardNumber % 9);
     elem.classList.add(getSet(cardNumber));
     elem.addEventListener("click", onCardClick);
   });

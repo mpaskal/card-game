@@ -78,94 +78,72 @@ h1 {
   width: 100%;
 }
 
-.flipped-up.image-1 {
-  background-image: var(--cards-arriety-image);
+.flipped-up.pos-1 {
   background-position: 9% 0%;
 }
 
-.flipped-up.image-2 {
-  background-image: var(--cards-arriety-image);
+.flipped-up.pos-2 {
   background-position: 49% 0%;
 }
 
-.flipped-up.image-3 {
-  background-image: var(--cards-arriety-image);
+.flipped-up.pos-3 {
   background-position: 89% 0%;
 }
 
-.flipped-up.image-4 {
-  background-image: var(--cards-arriety-image);
+.flipped-up.pos-4 {
   background-position: 9% 50%;
 }
 
-.flipped-up.image-5 {
-  background-image: var(--cards-arriety-image);
+.flipped-up.pos-5 {
   background-position: 49% 50%;
 }
 
-.flipped-up.image-6 {
-  background-image: var(--cards-arriety-image);
+.flipped-up.pos-6 {
   background-position: 89% 50%;
 }
 
-.flipped-up.image-7 {
-  background-image: var(--cards-arriety-image);
+.flipped-up.pos-7 {
   background-position: 9% 100%;
 }
 
-.flipped-up.image-8 {
-  background-image: var(--cards-arriety-image);
+.flipped-up.pos-8 {
   background-position: 49% 100%;
 }
 
-.flipped-up.image-9 {
-  background-image: var(--cards-arriety-image);
+.flipped-up.pos-9 {
   background-position: 89% 100%;
 }
 
-.flipped-up.image-10 {
-  background-image: var(--cards-kiki-image);
-  background-position: 9% 0%;
+.flipped-up.totoro {
+  background-image: var(--cards-totoro-image);
 }
 
-.flipped-up.image-11 {
+.flipped-up.kiki {
   background-image: var(--cards-kiki-image);
-  background-position: 49% 0%;
 }
 
-.flipped-up.image-12 {
-  background-image: var(--cards-kiki-image);
-  background-position: 89% 0%;
+.flipped-up.woth {
+  background-image: var(--cards-woth-image);
 }
 
-.flipped-up.image-13 {
-  background-image: var(--cards-kiki-image);
-  background-position: 9% 50%;
+.flipped-up.mononoke {
+  background-image: var(--cards-mononoke-image);
 }
 
-.flipped-up.image-14 {
-  background-image: var(--cards-kiki-image);
-  background-position: 49% 50%;
+.flipped-up.spirited-away {
+  background-image: var(--cards-spirited-away-image);
 }
 
-.flipped-up.image-15 {
-  background-image: var(--cards-kiki-image);
-  background-position: 89% 50%;
+.flipped-up.howl {
+  background-image: var(--cards-howl-image);
 }
 
-.flipped-up.image-16 {
-  background-image: var(--cards-kiki-image);
-  background-position: 9% 100%;
+.flipped-up.arrietty {
+  background-image: var(--cards-arrietty-image);
 }
 
-.flipped-up.image-17 {
-  background-image: var(--cards-kiki-image);
-  background-position: 49% 100%;
-}
-
-.flipped-up.image-18 {
-  background-image: var(--cards-kiki-image);
-  background-position: 89% 100%;
+.flipped-up.marnie {
+  background-image: var(--cards-marnie-image);
 }
 
 .card.flipped-up {

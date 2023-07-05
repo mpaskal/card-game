@@ -3,6 +3,7 @@ const totalCards = 9 * totalSets;
 const defaultNumberOfCards = 12;
 const defaultCardSets = "all";
 let numberOfCards = defaultNumberOfCards;
+let score = 0;
 let cardSets = defaultCardSets;
 let cards = [];
 
@@ -62,7 +63,7 @@ function setCards() {
   cards.forEach((elem) => {
     let cardNumber = cardsRandom.pop();
     elem.classList.add("image-" + cardNumber);
-    elem.classList.add("pos-" + (cardNumber % 9 + 1));
+    elem.classList.add("pos-" + ((cardNumber % 9) + 1));
     elem.classList.add(getSet(cardNumber));
     elem.addEventListener("click", onCardClick);
   });
@@ -76,17 +77,17 @@ function getSet(cardNumber) {
   } else if (cardNumber <= 18) {
     set = "kiki";
   } else if (cardNumber <= 27) {
-    set = "woth"
+    set = "woth";
   } else if (cardNumber <= 36) {
-    set = "mononoke"
+    set = "mononoke";
   } else if (cardNumber <= 45) {
-    set = "spirited-away"
+    set = "spirited-away";
   } else if (cardNumber <= 54) {
-    set = "howl"
+    set = "howl";
   } else if (cardNumber <= 63) {
-    set = "arrietty"
+    set = "arrietty";
   } else if (cardNumber <= 72) {
-    set = "marnie"
+    set = "marnie";
   }
 
   return set;
@@ -124,9 +125,7 @@ function setCardsNumber() {
   }
   numberOfCards = localStorage.getItem("cardsnumber");
 
-  document.querySelector(
-    "#cards-number"
-  ).textContent = ` ${numberOfCards} `;
+  document.querySelector("#cards-number").textContent = ` ${numberOfCards} `;
 }
 
 function setStartingCardSets() {
@@ -270,6 +269,14 @@ function isGameOver() {
   document.querySelector("#score-best").textContent = localStorage.getItem(
     `bestscore${currentNum}`
   );
+
+  score = ++document.querySelector("#score-last").textContent;
+  console.log(score);
+
+  document.querySelector(
+    "#congrats"
+  ).textContent = `You solved it in ${score} clicks`;
+
   setTimeout(() => {
     document.querySelector(".congrats-container").style.display = "block";
   }, 500);
@@ -285,10 +292,7 @@ function setNumberOfCards() {
 }
 
 function setCardSets() {
-  localStorage.setItem(
-    "cardsets",
-    document.querySelector("#card-sets").value
-  );
+  localStorage.setItem("cardsets", document.querySelector("#card-sets").value);
   localStorage.getItem("card-sets");
   restart();
 }

@@ -4,6 +4,7 @@ const defaultNumberOfCards = 12;
 const defaultCardSets = "all";
 let numberOfCards = defaultNumberOfCards;
 let score = 0;
+let record = 0;
 let cardSets = defaultCardSets;
 let cards = [];
 
@@ -256,6 +257,7 @@ function loopMusic() {
 
 function isGameOver() {
   let currentNum = document.querySelector("#cards-number").textContent.trim();
+  console.log("currentNum", currentNum);
   if (
     +localStorage.getItem(`bestscore${currentNum}`) >
       +localStorage.getItem("lastscore") ||
@@ -270,12 +272,54 @@ function isGameOver() {
     `bestscore${currentNum}`
   );
 
-  score = ++document.querySelector("#score-last").textContent;
-  console.log(score);
+  score = Number(document.querySelector("#score-last").textContent) + 1;
+  record = Number(document.querySelector("#score-best").textContent);
+  console.log(typeof score);
+  console.log(typeof(record));
 
-  document.querySelector(
-    "#congrats"
-  ).textContent = `You solved it in ${score} clicks`;
+  console.log("score", score);
+  console.log("record", record);
+  console.log("numberOfCards", numberOfCards);
+
+  if (score == numberOfCards) {
+    document.querySelector(
+      "#scores-new"
+    ).textContent = `Your score is ${score}: `;
+    document.querySelector(
+      "#scores-details"
+    ).textContent = `It is the best possible`;
+  } else if (score > record) {
+    let more = score - record; 
+    if (more == 1) {
+      document.querySelector(
+        "#scores-new"
+      ).textContent = `Your score is ${score}: `;
+      document.querySelector(
+        "#scores-details"
+      ).textContent = `${more} more than your best`;
+    } else {
+      document.querySelector(
+        "#scores-new"
+      ).textContent = `Your score is ${score}: `;
+      document.querySelector(
+        "#scores-details"
+      ).textContent = `${more} more than your best`;
+    }
+  } else if (score === record) {
+    document.querySelector(
+      "#scores-new"
+    ).textContent = `Your score is ${score}: `;
+    document.querySelector(
+      "#scores-details"
+    ).textContent = `You repeated your best`;
+  } else {
+    document.querySelector(
+      "#scores-new"
+    ).textContent = `Your score is ${score}: `;
+    document.querySelector(
+      "#scores-details"
+    ).textContent = `${more} more than your best`;
+  }
 
   setTimeout(() => {
     document.querySelector(".congrats-container").style.display = "block";

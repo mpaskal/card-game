@@ -24,7 +24,7 @@
     <div class="game">
       <div class="board">
         <div class="score current">
-          Clicks:&nbsp<span id="score-last"></span>
+          Scores:&nbsp<span id="score-last"></span>
         </div>
         <div class="score">
           Best Scores for &nbsp<span id="cards-number"> </span>
@@ -70,10 +70,9 @@
         </div>
 
         <div class="congrats-container" id="congrats-container">
-          <div class="congrats-text">
-            <span id="congrats"></span>
-          </div>
-          <div class="button-container">
+          <div class="scores-text">
+            <spin id="scores-new"></spin>
+            <spin id="scores-details"></spin>
             <button class="restart" onClick="restart()">Play again</button>
           </div>
         </div>

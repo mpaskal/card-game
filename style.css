@@ -160,7 +160,6 @@ h1 {
 }
 
 #number-cards {
-  width: 3rem;
   color: var(--cards-number-color);
   background-color: var(--text-background);
   font-size: 1rem;

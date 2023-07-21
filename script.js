@@ -20,7 +20,8 @@ function renderBoard() {
 
 function setCards() {
   let cardSet = [];
-
+  score = 0;
+  record = 0;
   document.querySelector(".congrats-container").style.display = "none";
   setCardsNumber();
   setStartingCardSets();
@@ -257,7 +258,7 @@ function loopMusic() {
 
 function isGameOver() {
   let currentNum = document.querySelector("#cards-number").textContent.trim();
-  console.log("currentNum", currentNum);
+  record = localStorage.getItem(`bestscore${currentNum}`);
   if (
     +localStorage.getItem(`bestscore${currentNum}`) >
       +localStorage.getItem("lastscore") ||
@@ -273,52 +274,54 @@ function isGameOver() {
   );
 
   score = Number(document.querySelector("#score-last").textContent) + 1;
-  record = Number(document.querySelector("#score-best").textContent);
-  console.log(typeof score);
-  console.log(typeof(record));
-
-  console.log("score", score);
-  console.log("record", record);
-  console.log("numberOfCards", numberOfCards);
 
   if (score == numberOfCards) {
     document.querySelector(
       "#scores-new"
-    ).textContent = `Your score is ${score}: `;
+    ).textContent = `Your score is ${score}. `;
     document.querySelector(
       "#scores-details"
     ).textContent = `It is the best possible`;
   } else if (score > record) {
     let more = score - record; 
-    if (more == 1) {
+    if (record == 0) {
       document.querySelector(
         "#scores-new"
-      ).textContent = `Your score is ${score}: `;
+      ).textContent = `Your score is ${score}. `;
       document.querySelector(
         "#scores-details"
-      ).textContent = `${more} more than your best`;
+      ).textContent = `Congratulations on your first record: ${score} clicks!`;
     } else {
-      document.querySelector(
-        "#scores-new"
-      ).textContent = `Your score is ${score}: `;
-      document.querySelector(
-        "#scores-details"
-      ).textContent = `${more} more than your best`;
+      if (more == 1) {
+        document.querySelector(
+          "#scores-new"
+        ).textContent = `Your score is ${score}. `;
+        document.querySelector(
+          "#scores-details"
+        ).textContent = `That's ${more} click more than your best`;
+      } else {
+        document.querySelector(
+          "#scores-new"
+        ).textContent = `Your score is ${score}. `;
+        document.querySelector(
+          "#scores-details"
+        ).textContent = `That's ${more} clicks more than your best`;
+      }      
     }
-  } else if (score === record) {
+  } else if (score == record) {
     document.querySelector(
       "#scores-new"
-    ).textContent = `Your score is ${score}: `;
+    ).textContent = `Your score is ${score}. `;
     document.querySelector(
       "#scores-details"
     ).textContent = `You repeated your best`;
-  } else {
+  } else if (score < record) {
     document.querySelector(
       "#scores-new"
-    ).textContent = `Your score is ${score}: `;
+    ).textContent = `Your score is ${score}. `;
     document.querySelector(
       "#scores-details"
-    ).textContent = `${more} more than your best`;
+    ).textContent = `Congratulations on your new record: ${score} clicks!`;
   }
 
   setTimeout(() => {
@@ -356,7 +359,6 @@ function playAll() {
       "trackForPlayAll"
     )}.mp3`;
   } else {
-    console.log("last");
     localStorage.setItem("trackForPlayAll", i);
     audioPlayer.src = `./assets/music/${localStorage.getItem(
       "trackForPlayAll"

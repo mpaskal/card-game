@@ -1,151 +1,211 @@
-const totalSets = 8;
-const totalCards = 9 * totalSets;
-const defaultNumberOfCards = 12;
-const defaultCardSets = "all";
-let numberOfCards = defaultNumberOfCards;
-let score = 0;
-let record = 0;
-let cardSets = defaultCardSets;
-let cards = [];
+// Constants
+const TOTAL_SETS = 8;
+const TOTAL_CARDS = 9 * TOTAL_SETS;
+const DEFAULT_NUMBER_OF_CARDS = 12;
+const DEFAULT_CARD_SETS = "all";
 
+const CARD_SETS = {
+  totoro: 9,
+  kiki: 18,
+  woth: 27,
+  mononoke: 36,
+  "spirited-away": 45,
+  howl: 54,
+  arrietty: 63,
+  marnie: 72,
+};
+
+// State
+let gameState = {
+  numberOfCards: DEFAULT_NUMBER_OF_CARDS,
+  score: 0,
+  record: 0,
+  cardSets: DEFAULT_CARD_SETS,
+  cards: [],
+};
+
+// DOM Elements
+const elements = {
+  cardsContainer: document.querySelector(".cards-container"),
+  copyright: document.querySelector(".copyright"),
+  congratsContainer: document.querySelector(".congrats-container"),
+  scoreBoard: {
+    best: document.querySelector("#score-best"),
+    last: document.querySelector("#score-last"),
+    new: document.querySelector("#scores-new"),
+    details: document.querySelector("#scores-details"),
+  },
+  cardNumberDisplay: document.querySelector("#cards-number"),
+  cardNumberSelect: document.querySelector("#number-cards"),
+  cardSetsSelect: document.querySelector("#card-sets"),
+  musicControl: document.querySelector("#music-control"),
+  musicSelect: document.querySelector("#music"),
+  audioReset: document.querySelector("#audio-reset"),
+  loopIcon: document.querySelector(".fa-rotate"),
+  loopLabel: document.querySelector(".loopLabel"),
+};
+
+// Main Functions
 function renderBoard() {
-  let dateCopyright = todayDate();
-  document.querySelector(
-    ".copyright"
-  ).innerHTML = `Copyright &copy; ${dateCopyright} LivenLab`;
-
+  updateCopyright();
   setMusic();
   setCards();
 }
 
 function setCards() {
-  let cardSet = [];
-  score = 0;
-  record = 0;
-  document.querySelector(".congrats-container").style.display = "none";
+  resetGameState();
+  clearCards();
+  const cardSet = generateCardSet();
+  const shuffledCards = shuffle(cardSet, gameState.numberOfCards);
+  createCardElements(shuffledCards);
+}
+
+function resetGameState() {
+  gameState.score = 0;
+  gameState.record = 0;
+  elements.congratsContainer.style.display = "none";
   setCardsNumber();
   setStartingCardSets();
   setScores();
-  clearCards();
-
-  for (let i = 1; i <= totalCards; i++) {
-    cardSet.push(i);
-  }
-
-  if (cardSets == "totoro") {
-    cardSet = cardSet.slice(0, 9);
-  } else if (cardSets == "kiki") {
-    cardSet = cardSet.slice(9, 18);
-  } else if (cardSets == "woth") {
-    cardSet = cardSet.slice(18, 27);
-  } else if (cardSets == "mononoke") {
-    cardSet = cardSet.slice(27, 36);
-  } else if (cardSets == "spirited-away") {
-    cardSet = cardSet.slice(36, 45);
-  } else if (cardSets == "howl") {
-    cardSet = cardSet.slice(45, 54);
-  } else if (cardSets == "arrietty") {
-    cardSet = cardSet.slice(54, 63);
-  } else if (cardSets == "marnie") {
-    cardSet = cardSet.slice(63, 72);
-  }
-
-  cardSet = cardSet.concat(cardSet);
-
-  let cardsRandom = shuffle(cardSet, numberOfCards);
-
-  for (let i = 0; i < cardsRandom.length; i++) {
-    let div = document.createElement("div");
-    div.className = "card";
-    document.querySelector(".cards-container").appendChild(div);
-  }
-
-  cards = document.querySelectorAll(".card");
-
-  cards.forEach((elem) => {
-    let cardNumber = cardsRandom.pop();
-    elem.classList.add("image-" + cardNumber);
-    elem.classList.add("pos-" + ((cardNumber % 9) + 1));
-    elem.classList.add(getSet(cardNumber));
-    elem.addEventListener("click", onCardClick);
-  });
 }
 
-function getSet(cardNumber) {
-  let set = "";
-
-  if (cardNumber <= 9) {
-    set = "totoro";
-  } else if (cardNumber <= 18) {
-    set = "kiki";
-  } else if (cardNumber <= 27) {
-    set = "woth";
-  } else if (cardNumber <= 36) {
-    set = "mononoke";
-  } else if (cardNumber <= 45) {
-    set = "spirited-away";
-  } else if (cardNumber <= 54) {
-    set = "howl";
-  } else if (cardNumber <= 63) {
-    set = "arrietty";
-  } else if (cardNumber <= 72) {
-    set = "marnie";
+function generateCardSet() {
+  let cardSet = Array.from({ length: TOTAL_CARDS }, (_, i) => i + 1);
+  if (gameState.cardSets !== "all") {
+    const setStart = Object.keys(CARD_SETS).indexOf(gameState.cardSets) * 9;
+    cardSet = cardSet.slice(setStart, setStart + 9);
   }
+  return cardSet.concat(cardSet);
+}
 
-  return set;
+function createCardElements(shuffledCards) {
+  shuffledCards.forEach((cardNumber) => {
+    const card = document.createElement("div");
+    card.className = `card image-${cardNumber} pos-${
+      (cardNumber % 9) + 1
+    } ${getSet(cardNumber)}`;
+    card.addEventListener("click", onCardClick);
+    elements.cardsContainer.appendChild(card);
+  });
+  gameState.cards = document.querySelectorAll(".card");
+}
+
+function onCardClick(e) {
+  const el = e.target;
+  const maxOpenCards =
+    document.querySelectorAll(".flipped-up").length -
+    document.querySelectorAll(".done").length;
+  incrementScore();
+
+  if (maxOpenCards < 2) {
+    flipCard(el);
+    updateLastScore();
+  }
+}
+
+function flipCard(el) {
+  if (!el.classList.contains("done")) {
+    if (el.classList.contains("flipped-up")) {
+      el.classList.remove("flipped-up");
+    } else {
+      if (document.querySelectorAll(".flipped-up").length) {
+        isMatchingPair(el.className, el);
+      } else {
+        el.classList.add("flipped-up");
+      }
+    }
+  }
+}
+
+function isMatchingPair(card, el) {
+  const waitingTime = 1000;
+  const cardImg = card.replace("card", "").trim().split(" ")[0];
+
+  document.querySelectorAll(".flipped-up").forEach((elFlipped) => {
+    if (
+      elFlipped.classList.contains(cardImg) &&
+      !elFlipped.classList.contains("done")
+    ) {
+      el.classList.add("flipped-up", "done");
+      elFlipped.classList.add("done");
+    } else {
+      el.classList.add("flipped-up");
+      if (!elFlipped.classList.contains("done")) {
+        setTimeout(() => {
+          elFlipped.classList.remove("flipped-up");
+          el.classList.remove("flipped-up");
+        }, waitingTime);
+      }
+    }
+  });
+
+  if (isAllCardsDone()) {
+    isGameOver();
+  }
+}
+
+function isAllCardsDone() {
+  return (
+    document.querySelectorAll(".done").length >= gameState.numberOfCards &&
+    document.querySelectorAll(".flipped-up").length >= gameState.numberOfCards
+  );
+}
+
+function isGameOver() {
+  updateScores();
+  displayGameOverMessage();
+  setTimeout(() => {
+    elements.congratsContainer.style.display = "block";
+  }, 500);
+}
+
+// Helper Functions
+function getSet(cardNumber) {
+  return (
+    Object.entries(CARD_SETS).find(([_, max]) => cardNumber <= max)?.[0] || ""
+  );
 }
 
 function clearCards() {
-  const container = document.querySelector(".cards-container");
-  while (container.lastChild) {
-    container.removeChild(container.lastChild);
+  while (elements.cardsContainer.firstChild) {
+    elements.cardsContainer.removeChild(elements.cardsContainer.firstChild);
   }
 }
 
 function setScores() {
-  let numBestResult = localStorage.getItem(`bestscore${numberOfCards}`);
-  if (numBestResult == null) {
-    localStorage.setItem(`bestscore${numberOfCards}`, 0);
+  const bestScoreKey = `bestScore${gameState.numberOfCards}`;
+  if (localStorage.getItem(bestScoreKey) === null) {
+    localStorage.setItem(bestScoreKey, "0");
   }
-  localStorage.setItem("lastscore", 0);
+  localStorage.setItem("lastScore", "0");
 
-  document.querySelector("#score-best").textContent = `${localStorage.getItem(
-    `bestscore${numberOfCards}`
-  )}`;
-
-  document.querySelector("#score-last").textContent = `${localStorage.getItem(
-    "lastscore"
-  )} `;
+  elements.scoreBoard.best.textContent = localStorage.getItem(bestScoreKey);
+  elements.scoreBoard.last.textContent = localStorage.getItem("lastScore");
 }
 
 function setCardsNumber() {
-  if (localStorage.getItem("cardsnumber") == null) {
-    localStorage.setItem("cardsnumber", defaultNumberOfCards);
+  if (localStorage.getItem("cardsNumber") === null) {
+    localStorage.setItem("cardsNumber", DEFAULT_NUMBER_OF_CARDS);
   } else {
-    document.querySelector("#number-cards").value =
-      localStorage.getItem("cardsnumber");
+    elements.cardNumberSelect.value = localStorage.getItem("cardsNumber");
   }
-  numberOfCards = localStorage.getItem("cardsnumber");
-
-  document.querySelector("#cards-number").textContent = ` ${numberOfCards} `;
+  gameState.numberOfCards = parseInt(localStorage.getItem("cardsNumber"));
+  elements.cardNumberDisplay.textContent = ` ${gameState.numberOfCards} `;
 }
 
 function setStartingCardSets() {
-  if (localStorage.getItem("cardsets") == null) {
-    localStorage.setItem("cardsets", defaultCardSets);
+  if (localStorage.getItem("cardSets") === null) {
+    localStorage.setItem("cardSets", DEFAULT_CARD_SETS);
   } else {
-    document.querySelector("#card-sets").value =
-      localStorage.getItem("cardsets");
+    elements.cardSetsSelect.value = localStorage.getItem("cardSets");
   }
-  cardSets = localStorage.getItem("cardsets");
+  gameState.cardSets = localStorage.getItem("cardSets");
 }
 
-// generate a random number
 function calcRandomNumber(newLength) {
   return Math.floor(Math.random() * newLength);
 }
 
-// adjust array size
 function arraySize(array, newLength) {
   let newArray = array.slice();
   if (array.length > newLength) {
@@ -165,14 +225,12 @@ function arraySize(array, newLength) {
   return newArray;
 }
 
-// randomize an array
 function shuffle(array, newLength) {
   let currentIndex = newLength - 1;
   let adjustedArray = arraySize(array, newLength);
 
-  while (currentIndex != 0) {
+  while (currentIndex !== 0) {
     let randomIndex = calcRandomNumber(newLength);
-
     [adjustedArray[currentIndex], adjustedArray[randomIndex]] = [
       adjustedArray[randomIndex],
       adjustedArray[currentIndex],
@@ -182,269 +240,170 @@ function shuffle(array, newLength) {
   return adjustedArray;
 }
 
-function onCardClick(e) {
-  let el = e.target;
-  let maxOpenCards =
-    document.querySelectorAll(".flipped-up").length -
-    document.querySelectorAll(".done").length;
-  localStorage.setItem("lastscore", +localStorage.getItem("lastscore") + 1);
-  if (maxOpenCards < 2) {
-    flipCard(el);
-    document.querySelector(
-      "#score-last"
-    ).textContent = ` ${localStorage.getItem("lastscore")} `;
-  }
-}
-
-function flipCard(el) {
-  let card = el.getAttribute("class");
-  if (!card.split(" ").includes("done")) {
-    if (card.split(" ").includes("flipped-up")) {
-      el.classList.remove("flipped-up");
-    } else {
-      if (document.querySelectorAll(".flipped-up").length) {
-        isMatchingPair(card, el);
-      } else {
-        el.classList.add("flipped-up");
-      }
-    }
-  }
-}
-
-// check if the pair of cards are match:
-function isMatchingPair(card, el) {
-  const waitingTime = 1000;
-  let cardImg = card
-    .replace("card", "")
-    .split(" ")
-    .filter((n) => n);
-  document.querySelectorAll(".flipped-up").forEach(function (elFlipped) {
-    if (
-      elFlipped.classList.value.split(" ").includes(cardImg[0]) &&
-      !elFlipped.classList.value.split(" ").includes("done")
-    ) {
-      el.classList.add("flipped-up");
-      elFlipped.classList.add("done");
-      el.classList.add("done");
-    } else {
-      el.classList.add("flipped-up");
-    }
-    if (!elFlipped.classList.value.split(" ").includes("done")) {
-      setTimeout(() => elFlipped.classList.remove("flipped-up"), waitingTime);
-      setTimeout(() => el.classList.remove("flipped-up"), waitingTime);
-    }
-  });
-  if (
-    document.querySelectorAll(".done").length >
-      localStorage.getItem("cardsnumber") - 1 &&
-    document.querySelectorAll(".flipped-up").length >
-      localStorage.getItem("cardsnumber") - 1
-  ) {
-    isGameOver();
-  }
-}
-
-function loopMusic() {
-  if (document.querySelector("#music-control").getAttribute("loop") == null) {
-    document.querySelector("#music-control").setAttribute("loop", "loop");
-    document.querySelector(".fa-rotate").setAttribute("title", "Loop On");
-    document.querySelector(".loopLabel").textContent = "On";
-  } else {
-    document.querySelector("#music-control").removeAttribute("loop");
-    document.querySelector(".fa-rotate").setAttribute("title", "Loop Off");
-    document.querySelector(".loopLabel").textContent = "Off";
-  }
-}
-
-function isGameOver() {
-  let currentNum = document.querySelector("#cards-number").textContent.trim();
-  record = localStorage.getItem(`bestscore${currentNum}`);
-  if (
-    +localStorage.getItem(`bestscore${currentNum}`) >
-      +localStorage.getItem("lastscore") ||
-    +localStorage.getItem(`bestscore${currentNum}`) == 0
-  ) {
-    localStorage.setItem(
-      `bestscore${currentNum}`,
-      localStorage.getItem("lastscore")
-    );
-  }
-  document.querySelector("#score-best").textContent = localStorage.getItem(
-    `bestscore${currentNum}`
-  );
-
-  score = Number(document.querySelector("#score-last").textContent) + 1;
-
-  if (score == numberOfCards) {
-    document.querySelector(
-      "#scores-new"
-    ).textContent = `Your score is ${score}. `;
-    document.querySelector(
-      "#scores-details"
-    ).textContent = `It is the best possible`;
-  } else if (score > record) {
-    let more = score - record; 
-    if (record == 0) {
-      document.querySelector(
-        "#scores-new"
-      ).textContent = `Your score is ${score}. `;
-      document.querySelector(
-        "#scores-details"
-      ).textContent = `Congratulations on your first record: ${score} clicks!`;
-    } else {
-      if (more == 1) {
-        document.querySelector(
-          "#scores-new"
-        ).textContent = `Your score is ${score}. `;
-        document.querySelector(
-          "#scores-details"
-        ).textContent = `That's ${more} click more than your best`;
-      } else {
-        document.querySelector(
-          "#scores-new"
-        ).textContent = `Your score is ${score}. `;
-        document.querySelector(
-          "#scores-details"
-        ).textContent = `That's ${more} clicks more than your best`;
-      }      
-    }
-  } else if (score == record) {
-    document.querySelector(
-      "#scores-new"
-    ).textContent = `Your score is ${score}. `;
-    document.querySelector(
-      "#scores-details"
-    ).textContent = `You repeated your best`;
-  } else if (score < record) {
-    document.querySelector(
-      "#scores-new"
-    ).textContent = `Your score is ${score}. `;
-    document.querySelector(
-      "#scores-details"
-    ).textContent = `Congratulations on your new record: ${score} clicks!`;
-  }
-
-  setTimeout(() => {
-    document.querySelector(".congrats-container").style.display = "block";
-  }, 500);
-}
-
-function setNumberOfCards() {
+function incrementScore() {
   localStorage.setItem(
-    "cardsnumber",
-    document.querySelector("#number-cards").value
+    "lastScore",
+    (parseInt(localStorage.getItem("lastScore")) + 1).toString()
   );
-  localStorage.getItem("cardsnumber");
-  restart();
 }
 
-function setCardSets() {
-  localStorage.setItem("cardsets", document.querySelector("#card-sets").value);
-  localStorage.getItem("card-sets");
-  restart();
+function updateLastScore() {
+  elements.scoreBoard.last.textContent = ` ${localStorage.getItem(
+    "lastScore"
+  )} `;
+}
+
+function updateScores() {
+  console.log("Updating scores...");
+  const currentNum = gameState.numberOfCards;
+  const bestScoreKey = `bestScore${currentNum}`;
+  gameState.record = parseInt(localStorage.getItem(bestScoreKey)) || 0;
+  gameState.score = parseInt(localStorage.getItem("lastScore"));
+  console.log("Current score:", gameState.score);
+  console.log("Current record:", gameState.record);
+
+  if (gameState.score < gameState.record || gameState.record === 0) {
+    console.log("New record achieved!");
+    localStorage.setItem(bestScoreKey, gameState.score.toString());
+    gameState.record = gameState.score;
+  }
+  elements.scoreBoard.best.textContent = gameState.record.toString();
+  console.log("Updated best score:", gameState.record);
+}
+
+function displayGameOverMessage() {
+  const { score, record, numberOfCards } = gameState;
+  let message = `Your score is ${score}. `;
+  let details = "";
+
+  if (score === numberOfCards) {
+    details = "It is the best possible";
+  } else if (score > record) {
+    const more = score - record;
+    details =
+      record === 0
+        ? `Congratulations on your first record: ${score} clicks!`
+        : `That's ${more} click${more > 1 ? "s" : ""} more than your best`;
+  } else if (score === record) {
+    details = "You repeated your best";
+  } else if (score < record) {
+    details = `Congratulations on your new record: ${score} clicks!`;
+  }
+
+  elements.scoreBoard.new.textContent = message;
+  elements.scoreBoard.details.textContent = details;
+}
+
+// Music Functions
+function loopMusic() {
+  const musicControl = elements.musicControl;
+  if (musicControl.hasAttribute("loop")) {
+    musicControl.removeAttribute("loop");
+    elements.loopIcon.setAttribute("title", "Loop Off");
+    elements.loopLabel.textContent = "Off";
+  } else {
+    musicControl.setAttribute("loop", "loop");
+    elements.loopIcon.setAttribute("title", "Loop On");
+    elements.loopLabel.textContent = "On";
+  }
 }
 
 function playAll() {
   let i = 1;
-  let nextSong = "";
-  const audioPlayer = document.querySelector("#music-control");
+  const audioPlayer = elements.musicControl;
+
   if (
-    localStorage.getItem("music") != "none" &&
-    localStorage.getItem("music") != "Play All" &&
-    localStorage.getItem("music") != null
+    localStorage.getItem("music") &&
+    localStorage.getItem("music") !== "none" &&
+    localStorage.getItem("music") !== "Play All"
   ) {
     audioPlayer.src = `./assets/music/${localStorage.getItem("music")}.mp3`;
-  } else if (localStorage.getItem("trackForPlayAll") != null) {
+  } else if (localStorage.getItem("trackForPlayAll")) {
     audioPlayer.src = `./assets/music/${localStorage.getItem(
       "trackForPlayAll"
     )}.mp3`;
   } else {
-    localStorage.setItem("trackForPlayAll", i);
+    localStorage.setItem("trackForPlayAll", i.toString());
     audioPlayer.src = `./assets/music/${localStorage.getItem(
       "trackForPlayAll"
     )}.mp3`;
   }
 
-  document.querySelector("#music-control").addEventListener(
+  audioPlayer.addEventListener(
     "ended",
     function () {
-      i += 1;
-      nextSong = `./assets/music/${i}.mp3`;
-      localStorage.setItem("trackForPlayAll", i);
-      audioPlayer.src = nextSong;
+      i = (i % 24) + 1;
+      localStorage.setItem("trackForPlayAll", i.toString());
+      audioPlayer.src = `./assets/music/${i}.mp3`;
       audioPlayer.load();
       audioPlayer.play();
-      if (i == 24) {
-        i = 0;
-      }
     },
     false
   );
 }
+
 function setMusic() {
-  let musicControl = document.querySelector("#music-control");
-  let playerReset = document.querySelector("#audio-reset");
-  localStorage.setItem("music", document.querySelector("#music").value);
-  if (
-    localStorage.getItem("music") != "none" &&
-    localStorage.getItem("music") != "Play All"
-  ) {
-    musicControl.removeAttribute("hidden");
-    playerReset.removeAttribute("hidden");
-    musicControl.setAttribute(
-      "src",
-      `./assets/music/${localStorage.getItem("music")}.mp3`
-    );
-  } else if (
-    localStorage.getItem("music") == "none" &&
-    !musicControl.getAttribute("hidden")
-  ) {
-    playerReset.setAttribute("hidden", "hidden");
-    musicControl.setAttribute("hidden", "hidden");
-    musicControl.setAttribute("src", "");
-  } else if (localStorage.getItem("music") == "Play All") {
-    playerReset.removeAttribute("hidden");
-    musicControl.removeAttribute("hidden");
+  const musicValue = elements.musicSelect.value;
+  localStorage.setItem("music", musicValue);
+
+  if (musicValue !== "none" && musicValue !== "Play All") {
+    showMusicControls();
+    elements.musicControl.src = `./assets/music/${musicValue}.mp3`;
+  } else if (musicValue === "none") {
+    hideMusicControls();
+  } else if (musicValue === "Play All") {
+    showMusicControls();
     playAll();
   }
-  if (document.querySelector("#music").value == "none") {
-    document.querySelector("#music").style.width = "80px";
-  } else {
-    document.querySelector("#music").style.width = "200px";
-  }
+
+  elements.musicSelect.style.width = musicValue === "none" ? "80px" : "200px";
+}
+
+function showMusicControls() {
+  elements.musicControl.removeAttribute("hidden");
+  elements.audioReset.removeAttribute("hidden");
+}
+
+function hideMusicControls() {
+  elements.audioReset.setAttribute("hidden", "hidden");
+  elements.musicControl.setAttribute("hidden", "hidden");
+  elements.musicControl.src = "";
 }
 
 function resetPlayer() {
-  let musicControl = document.querySelector("#music-control");
-  let playerReset = document.querySelector("#audio-reset");
-  playerReset.setAttribute("hidden", "hidden");
-  musicControl.setAttribute("hidden", "hidden");
-  musicControl.setAttribute("src", "");
+  hideMusicControls();
   localStorage.setItem("music", "none");
-  document.querySelector("#music").value = localStorage.getItem("music");
-  localStorage.removeItem("music");
+  elements.musicSelect.value = "none";
   localStorage.removeItem("trackForPlayAll");
 }
 
-function resetScores() {
-  let currentNum = document.querySelector("#cards-number").textContent.trim();
-  localStorage.setItem(`bestscore${currentNum}`, 0);
-  document.querySelector("#score-best").textContent = `${localStorage.getItem(
-    `bestscore${currentNum}`
-  )}`;
+// Utility Functions
+function updateCopyright() {
+  const currentYear = new Date().getFullYear();
+  elements.copyright.innerHTML = `Copyright &copy; ${currentYear} LivenLab`;
 }
 
-// copyright
-function todayDate() {
-  let date = new Date().getFullYear();
-  return date;
+function setNumberOfCards() {
+  localStorage.setItem("cardsNumber", elements.cardNumberSelect.value);
+  restart();
+}
+
+function setCardSets() {
+  localStorage.setItem("cardSets", elements.cardSetsSelect.value);
+  restart();
+}
+
+function resetScores() {
+  const bestScoreKey = `bestScore${gameState.numberOfCards}`;
+  localStorage.setItem(bestScoreKey, "0");
+  elements.scoreBoard.best.textContent = "0";
 }
 
 function restart() {
   setCards();
 }
 
-// start the game on page load
+// Initialize the game
 (function () {
   console.clear();
   renderBoard();

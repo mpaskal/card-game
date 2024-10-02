@@ -15,7 +15,7 @@
   </head>
   <body>
     <h1>
-      Best Memory &nbsp<i
+      Best Memory &nbsp;<i
         class="fa-solid fa-rotate-left reset-top"
         onClick="restart()"
         title="Restart the game"
@@ -24,18 +24,18 @@
     <div class="game">
       <div class="board">
         <div class="score current">
-          Scores:&nbsp<span id="score-last"></span>
+          Scores:&nbsp;<span id="score-last"></span>
         </div>
         <div class="score">
-          Best Scores for &nbsp<span id="cards-number"> </span>
-          &nbspcards:&nbsp<span id="score-best"> </span> &nbsp&nbsp<i
+          Best Scores for &nbsp;<span id="cards-number"> </span>
+          &nbsp;cards:&nbsp;<span id="score-best"> </span> &nbsp;&nbsp;<i
             class="fa-solid fa-rotate-left small"
             onClick="resetScores()"
             title="Reset best scores"
           ></i>
         </div>
         <div class="cards-set">
-          <label for="number-cards">Number of Cards:&nbsp</label>
+          <label for="number-cards">Number of Cards:&nbsp;</label>
           <select
             id="number-cards"
             name="number-cards"
@@ -55,7 +55,7 @@
           </select>
         </div>
         <div class="cards-set">
-          <label for="card-sets">Card set:&nbsp</label>
+          <label for="card-sets">Card set:&nbsp;</label>
           <select id="card-sets" name="card-sets" onchange="setCardSets()">
             <option value="all" selected>Use all</option>
             <option value="totoro">My Neighbour Totoro</option>
@@ -71,13 +71,13 @@
 
         <div class="congrats-container" id="congrats-container">
           <div class="scores-text">
-            <spin id="scores-new"></spin>
-            <spin id="scores-details"></spin>
+            <span id="scores-new"></span>
+            <span id="scores-details"></span>
             <button class="restart" onClick="restart()">Play again</button>
           </div>
         </div>
         <div class="cards-set">
-          <label for="music">Music:&nbsp</label>
+          <label for="music">Music:&nbsp;</label>
           <select id="music" name="music" onchange="setMusic()">
             <option value="none" selected>None</option>
             <option value="Play All">Play All</option>
@@ -111,7 +111,7 @@
             onClick="loopMusic()"
             title="Loop Off"
           ></i>
-          <p class="loopLabel">Off</p>
+          <span class="loopLabel">Off</span>
         </div>
         <div class="audio">
           <audio
@@ -131,9 +131,10 @@
             ></i>
           </div>
         </div>
+        <div id="track-display"></div>
         <div class="cards-container"></div>
       </div>
-      <div className="page-end"></div>
+      <div class="page-end"></div>
     </div>
     <hr size="1" color="#fe5112" />
     <footer class="footer">

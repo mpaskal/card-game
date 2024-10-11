@@ -43,6 +43,8 @@ const elements = {
   audioReset: document.querySelector("#audio-reset"),
   loopIcon: document.querySelector(".fa-rotate"),
   loopLabel: document.querySelector(".loopLabel"),
+  trackContainer: document.getElementById("current-track-container"),
+  trackDisplay: document.getElementById("track-display"),
 };
 
 // Main Functions
@@ -312,48 +314,86 @@ function playAll() {
   let i = 1;
   const audioPlayer = elements.musicControl;
 
-  if (
-    localStorage.getItem("music") &&
-    localStorage.getItem("music") !== "none" &&
-    localStorage.getItem("music") !== "Play All"
-  ) {
-    audioPlayer.src = `./assets/music/${localStorage.getItem("music")}.mp3`;
-  } else if (localStorage.getItem("trackForPlayAll")) {
-    audioPlayer.src = `./assets/music/${localStorage.getItem(
-      "trackForPlayAll"
-    )}.mp3`;
-  } else {
-    localStorage.setItem("trackForPlayAll", i.toString());
-    audioPlayer.src = `./assets/music/${localStorage.getItem(
-      "trackForPlayAll"
-    )}.mp3`;
+  if (localStorage.getItem("trackForPlayAll")) {
+    i = parseInt(localStorage.getItem("trackForPlayAll"));
   }
 
-  audioPlayer.addEventListener(
-    "ended",
-    function () {
-      i = (i % 24) + 1;
-      localStorage.setItem("trackForPlayAll", i.toString());
-      audioPlayer.src = `./assets/music/${i}.mp3`;
-      audioPlayer.load();
-      audioPlayer.play();
-    },
-    false
-  );
+  audioPlayer.src = `./assets/music/${i}.mp3`;
+  updateTrackName(i); // Update track name for current track
+  audioPlayer.play(); // Start playing the first track
+
+  function nextTrack() {
+    i = (i % 24) + 1;
+    localStorage.setItem("trackForPlayAll", i.toString());
+    audioPlayer.src = `./assets/music/${i}.mp3`;
+    updateTrackName(i); // Update track name when the track changes
+    audioPlayer.load();
+    audioPlayer.play();
+  }
+
+  audioPlayer.removeEventListener("ended", nextTrack);
+  audioPlayer.addEventListener("ended", nextTrack);
+}
+
+// Helper functions to manage track display
+function updateTrackName(trackValue) {
+  const trackNames = {
+    none: "None",
+    1: "01 Bird Person",
+    2: "02 The Promise of the World",
+    3: "03 Stroll",
+    4: "04 Teru's Song",
+    5: "05 Summer of Good-bye",
+    6: "06 Nausicaä of the Valley",
+    7: "07 Once in a While",
+    8: "08 Country Road",
+    9: "09 Message Of Rouge",
+    10: "10 The Path of Wind",
+    11: "11 Princess Mononoke",
+    12: "12 Hikouki-Gumo",
+    13: "13 Always With Me",
+    14: "14 A Town with an Ocean View",
+    15: "15 Ponyo on the Cliff by the Sea",
+    16: "16 Arrietty's Song",
+    17: "17 The Name of Life",
+    18: "18 My Neighbor Totoro",
+    19: "19 The Legend of Ashitaka",
+    20: "20 Become The Wind",
+    21: "21 Carrying You",
+    22: "22 Nausicaä Requiem",
+    23: "23 If I've Been Enveloped By Tendern",
+    24: "24 Reprise Spirited Away",
+    "Play All": "Play All",
+  };
+
+  // Update the input field with the current track name
+  elements.trackDisplay.value = trackNames[trackValue] || "None";
+}
+
+function showTrackDisplay() {
+  elements.trackContainer.style.display = "flex";
+}
+
+function hideTrackDisplay() {
+  elements.trackContainer.style.display = "none";
 }
 
 function setMusic() {
   const musicValue = elements.musicSelect.value;
   localStorage.setItem("music", musicValue);
 
-  if (musicValue !== "none" && musicValue !== "Play All") {
-    showMusicControls();
-    elements.musicControl.src = `./assets/music/${musicValue}.mp3`;
-  } else if (musicValue === "none") {
+  if (musicValue === "none") {
     hideMusicControls();
+    hideTrackDisplay();
   } else if (musicValue === "Play All") {
     showMusicControls();
-    playAll();
+    playAll(); // Start the play all function
+    showTrackDisplay(); // Show the current track display
+  } else {
+    showMusicControls();
+    elements.musicControl.src = `./assets/music/${musicValue}.mp3`;
+    showTrackDisplay();
+    updateTrackName(musicValue); // Update the track name for selected track
   }
 
   elements.musicSelect.style.width = musicValue === "none" ? "80px" : "200px";

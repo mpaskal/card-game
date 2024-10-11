@@ -81,30 +81,7 @@
           <select id="music" name="music" onchange="setMusic()">
             <option value="none" selected>None</option>
             <option value="Play All">Play All</option>
-            <option value="1">01 Bird Person</option>
-            <option value="2">02 The Promise of the World</option>
-            <option value="3">03 Stroll</option>
-            <option value="4">04 Teru's Song</option>
-            <option value="5">05 Summer of Good-bye</option>
-            <option value="6">06 Nausicaä of the Valley</option>
-            <option value="7">07 Once in a While</option>
-            <option value="8">08 Country Road</option>
-            <option value="9">09 Message Of Rouge</option>
-            <option value="10">10 The Path of Wind</option>
-            <option value="11">11 Princess Mononoke</option>
-            <option value="12">12 Hikouki-Gumo</option>
-            <option value="13">13 Always With Me</option>
-            <option value="14">14 A Town with an Ocean View</option>
-            <option value="15">15 Ponyo on the Cliff by the Sea</option>
-            <option value="16">16 Arrietty's Song</option>
-            <option value="17">17 The Name of Life</option>
-            <option value="18">18 My Neighbor Totoro</option>
-            <option value="19">19 The Legend of Ashitaka</option>
-            <option value="20">20 Become The Wind</option>
-            <option value="21">21 Carrying You</option>
-            <option value="22">22 Nausicaä Requiem</option>
-            <option value="23">23 If I've Been Enveloped By Tendern</option>
-            <option value="24">24 Reprise Spirited Away</option>
+            // ... other music options ...
           </select>
           <i
             class="fa-solid fa-rotate small"
@@ -113,6 +90,17 @@
           ></i>
           <span class="loopLabel">Off</span>
         </div>
+        <div class="cards-set" id="current-track-container">
+          <label for="track-display">Current track:&nbsp;</label>
+          <input
+            type="text"
+            id="track-display"
+            name="track-display"
+            value="01 Bird Person"
+            readonly
+          />
+        </div>
+        <div><div id="track-display"></div>
         <div class="audio">
           <audio
             id="music-control"
@@ -131,7 +119,6 @@
             ></i>
           </div>
         </div>
-        <div id="track-display"></div>
         <div class="cards-container"></div>
       </div>
       <div class="page-end"></div>

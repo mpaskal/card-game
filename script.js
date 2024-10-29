@@ -22,6 +22,9 @@ let gameState = {
   record: 0,
   cardSets: DEFAULT_CARD_SETS,
   cards: [],
+  currentTrack: 1,
+  isPlayingAll: false,
+  shouldLoopAll: false,
 };
 
 // DOM Elements
@@ -296,43 +299,73 @@ function displayGameOverMessage() {
   elements.scoreBoard.details.textContent = details;
 }
 
-// Music Functions
-function loopMusic() {
-  const musicControl = elements.musicControl;
-  if (musicControl.hasAttribute("loop")) {
-    musicControl.removeAttribute("loop");
-    elements.loopIcon.setAttribute("title", "Loop Off");
-    elements.loopLabel.textContent = "Off";
-  } else {
-    musicControl.setAttribute("loop", "loop");
-    elements.loopIcon.setAttribute("title", "Loop On");
-    elements.loopLabel.textContent = "On";
-  }
-}
-
 function playAll() {
-  let i = 1;
   const audioPlayer = elements.musicControl;
+  let currentTrack = 1;
 
-  if (localStorage.getItem("trackForPlayAll")) {
-    i = parseInt(localStorage.getItem("trackForPlayAll"));
+  // Initial track load
+  loadAndPlayTrack(currentTrack);
+
+  // Remove any existing ended event listeners to prevent duplicates
+  audioPlayer.removeEventListener("ended", handlePlayAllEnd);
+
+  function handlePlayAllEnd() {
+    const isLooping = elements.loopLabel.textContent === "On";
+
+    if (currentTrack < 24) {
+      // Move to next track if not at the end
+      currentTrack++;
+      loadAndPlayTrack(currentTrack);
+    } else if (isLooping) {
+      // Start over from track 1 if looping is enabled
+      currentTrack = 1;
+      loadAndPlayTrack(currentTrack);
+    }
   }
 
-  audioPlayer.src = `./assets/music/${i}.mp3`;
-  updateTrackName(i); // Update track name for current track
-  audioPlayer.play(); // Start playing the first track
-
-  function nextTrack() {
-    i = (i % 24) + 1;
-    localStorage.setItem("trackForPlayAll", i.toString());
-    audioPlayer.src = `./assets/music/${i}.mp3`;
-    updateTrackName(i); // Update track name when the track changes
+  function loadAndPlayTrack(trackNumber) {
+    audioPlayer.src = `./assets/music/${trackNumber}.mp3`;
+    updateTrackName(trackNumber);
+    localStorage.setItem("trackForPlayAll", trackNumber.toString());
     audioPlayer.load();
     audioPlayer.play();
   }
 
-  audioPlayer.removeEventListener("ended", nextTrack);
-  audioPlayer.addEventListener("ended", nextTrack);
+  // Add the ended event listener for Play All mode
+  audioPlayer.addEventListener("ended", handlePlayAllEnd);
+}
+
+function handleTrackEnd() {
+  if (gameState.isPlayingAll) {
+    if (gameState.currentTrack < TOTAL_TRACKS) {
+      gameState.currentTrack++;
+    } else if (gameState.shouldLoopAll) {
+      gameState.currentTrack = 1;
+    } else {
+      gameState.isPlayingAll = false;
+      return;
+    }
+    loadAndPlayTrack(gameState.currentTrack);
+  }
+}
+
+function loopMusic() {
+  const loopIcon = elements.loopIcon;
+  const loopLabel = elements.loopLabel;
+  const audioPlayer = elements.musicControl;
+  const musicValue = elements.musicSelect.value;
+
+  if (loopLabel.textContent === "On") {
+    loopIcon.setAttribute("title", "Loop Off");
+    loopLabel.textContent = "Off";
+    gameState.shouldLoopAll = false;
+    audioPlayer.loop = false;
+  } else {
+    loopIcon.setAttribute("title", "Loop On");
+    loopLabel.textContent = "On";
+    gameState.shouldLoopAll = true;
+    audioPlayer.loop = musicValue !== "Play All";
+  }
 }
 
 // Helper functions to manage track display
@@ -380,24 +413,42 @@ function hideTrackDisplay() {
 
 function setMusic() {
   const musicValue = elements.musicSelect.value;
+  const audioPlayer = elements.musicControl;
+
   localStorage.setItem("music", musicValue);
+
+  // Remove any existing ended event listeners
+  audioPlayer.removeEventListener("ended", audioPlayer.onended);
 
   if (musicValue === "none") {
     hideMusicControls();
     hideTrackDisplay();
   } else if (musicValue === "Play All") {
     showMusicControls();
-    playAll(); // Start the play all function
-    showTrackDisplay(); // Show the current track display
-  } else {
-    showMusicControls();
-    elements.musicControl.src = `./assets/music/${musicValue}.mp3`;
     showTrackDisplay();
-    updateTrackName(musicValue); // Update the track name for selected track
+    playAll();
+  } else {
+    // Single track mode
+    showMusicControls();
+    showTrackDisplay();
+
+    // Set up single track playback
+    audioPlayer.src = `./assets/music/${musicValue}.mp3`;
+    updateTrackName(musicValue);
+
+    // Remove Play All event listener if exists
+    audioPlayer.removeEventListener("ended", audioPlayer.onended);
+
+    // Handle looping for single track
+    const isLooping = elements.loopLabel.textContent === "On";
+    audioPlayer.loop = isLooping;
   }
 
   elements.musicSelect.style.width = musicValue === "none" ? "80px" : "200px";
 }
+
+// Make sure to add this event listener
+elements.musicControl.addEventListener("ended", handleTrackEnd);
 
 function showMusicControls() {
   elements.musicControl.removeAttribute("hidden");
@@ -411,9 +462,20 @@ function hideMusicControls() {
 }
 
 function resetPlayer() {
+  const audioPlayer = elements.musicControl;
+  const loopIcon = elements.loopIcon;
+  const loopLabel = elements.loopLabel;
+
+  // Remove all event listeners
+  audioPlayer.removeEventListener("ended", audioPlayer.onended);
+  audioPlayer.loop = false;
+  loopIcon.setAttribute("title", "Loop Off");
+  loopLabel.textContent = "Off";
+
   hideMusicControls();
   localStorage.setItem("music", "none");
   elements.musicSelect.value = "none";
+  hideTrackDisplay();
   localStorage.removeItem("trackForPlayAll");
 }
 

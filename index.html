@@ -23,6 +23,13 @@
     </h1>
     <div class="game">
       <div class="board">
+        <div class="congrats-container" id="congrats-container">
+          <div class="scores-text">
+            <span id="scores-new"></span>
+            <span id="scores-details"></span>
+            <button class="restart" onClick="restart()">Play again</button>
+          </div>
+        </div>
         <div class="score current">
           Scores:&nbsp;<span id="score-last"></span>
         </div>
@@ -67,14 +74,6 @@
             <option value="arrietty">Arrietty</option>
             <option value="marnie">When Marnie was There</option>
           </select>
-        </div>
-
-        <div class="congrats-container" id="congrats-container">
-          <div class="scores-text">
-            <span id="scores-new"></span>
-            <span id="scores-details"></span>
-            <button class="restart" onClick="restart()">Play again</button>
-          </div>
         </div>
         <div class="cards-set">
           <label for="music">Music:&nbsp;</label>
